@@ -1,63 +1,39 @@
 pragma solidity ^0.4.17;
 
 contract TinyGame {
-	struct Doll {
-		uint id;
-		string name;
-		uint features;
-		uint time;
-		address owner;
-	}
-	mapping(uint => Doll) dolls;
-	mapping(address => uint[]) ownership; 
-	uint dollNum;
+	mapping(address => uint[]) ownership;
+	mapping(address => uint) chances;
 	address owner;
 
-	event getPayed(address sender, bool flag);
+	event getPayed(address _user);
 
 	function TinyGame() public {
-		dollNum = 0;
 		owner = msg.sender;
 	}
 
-	function payToCatch() public payable returns (bool) {
-		require(msg.value == 1 finney);
-		getPayed(msg.sender, true);
-		return true;
+	function payToCatch() public payable {
+		chances[msg.sender]++;
+		getPayed(msg.sender);
 	}
 
-	function catchDoll(uint dollID) public returns (uint) {
-		require(dolls[dollID].time > 0);
-		dolls[dollID].owner = msg.sender;
-		ownership[msg.sender].push(dollID);
-		return dollID;
-	}
-
-	function addDoll(string name, uint feature) public returns (uint dollID) {
-		require(msg.sender == owner);
-		dollID = dollNum++;
-		dolls[dollID] = Doll(dollID, name, feature, 1000, msg.sender);
-	}
-
-	function getDollsByAddress() public returns (Doll[]) {
-		uint[] memory list = ownership[msg.sender];
-		Doll[] storage result;
-		for (uint index=0; index<list.length; index++) {
-			result.push(dolls[list[index]]);
+	function catchDoll(address _user, uint _dollID) public {
+		require(chances[_user] > 0);
+		if (ownership[_user].length != 5) {
+			ownership[_user] = new uint[](5);
+			for (uint index=0; index<5; index++) {
+				ownership[_user][index] = 0;
+			}
 		}
-		return result;
+		ownership[_user][_dollID]++;
+		chances[_user]--;
 	}
 
-	function getDollByIndex(uint dollID) public returns (Doll) {
-		return dolls[dollID];
+	function getDollsByAddress(address _user) public returns (uint[]) {
+		return ownership[_user];
 	}
-	
-	function getAllDolls() public returns (Doll[]) {
-		Doll[] storage result;
-		for (uint index=0; index<dollNum; index++) {
-			result.push(dolls[index]);
-		}
-		return result;
+
+	function getChancesByAddress(address _user) public returns (uint) {
+		return chances[_user];
 	}
 }
 
