@@ -1,11 +1,13 @@
-# Introduction
+# TinyGame on ethereum
+
+## Introduction
 A ethereum dapp which implements a tiny game -- Catching Dolls.
 
-# Dependency
-* npm/node
-* truffle
+## Dependency
+* npm&node
+* ethereum development framework: truffle
 
-# Get Started
+## Get Started
 * install truffle framework
 ```Bash
 npm install -g truffle
@@ -18,10 +20,12 @@ cd eth_CatchingDolls
 * install npm dependencies
 ```Bash
 npm install
+npm install eth-random
+## eth-random is a contract producing random numbers. Only for test.
 ```
 * test contracts
 ```Bash
-truffle develop
+truffle develop   ## enter truffle console
 >> compile
 >> migrate
 >> test
@@ -31,6 +35,7 @@ truffle develop
 node src/app.js
 ```
 * install MetaMask plugin on your browser (chrome or firefox)
+* import the Mnemonic in truffle console to Metamask
 
-# Status
+## Status
 Just started.
