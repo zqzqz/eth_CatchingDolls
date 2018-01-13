@@ -1,0 +1,28 @@
+<!-- views/index.html -->
+<button type="button" id="purchase" >Purchase</button>
+<button type="button" id="catch" >Catch</button>
+<h2>chances left</h2>
+<div id=chances >
+	<p>{{chances}}</p>
+</div>
+<h2>dolls in possesion</h2>
+<div id=dolls>
+	<p>{{dolls}}</p>
+</div>
+<script>
+$(document).ready(function() {
+	$("#purchase").click(function() {
+		$.get("/purchase", function(data) {
+			console.log("get purchase");
+			$("#chances").html(data);
+		});
+	});
+	$("#catch").click(function() {
+		$.get("/catch", function(data) {
+			console.log("get catch");
+			$("#dolls").html(data);
+		});
+	});
+});
+</script>
+

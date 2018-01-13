@@ -28,10 +28,17 @@ contract TinyGame {
 		uint randint = random.random(100);
 		//get doll ID according to randint
 		//uint randint=1;
+<<<<<<< HEAD
 		if (randint < 20) dollID = 0;
 		else if (randint < 40) dollID = 1;
 		else if (randint < 60) dollID = 2;
 		else if (randint < 80) dollID = 3;
+=======
+		if (randint < 30) dollID = 0;
+		else if (randint < 60) dollID = 1;
+		else if (randint < 85) dollID = 2;
+		else if (randint < 95) dollID = 3;
+>>>>>>> c9d6552f3720d359e868523706eb6c94e0b94ef4
 		else dollID = 4;
 		//write changes to map ownership
 		require(dollID>=0 && dollID<=4);
@@ -54,13 +61,17 @@ contract TinyGame {
 		for (uint dollID=0; dollID<5; dollID++) {
 			if (ownership[msg.sender][dollID]<=0) return false;
 		}
+<<<<<<< HEAD
 		if(!sendPrize(msg.sender)) return false;
+=======
+>>>>>>> c9d6552f3720d359e868523706eb6c94e0b94ef4
 		for (dollID=0; dollID<5; dollID++) {
 			ownership[msg.sender][dollID]--;
 		}
 		SubmitSuccess(msg.sender); //event
 	}
 
+<<<<<<< HEAD
 	function sendPrize(address winner) internal returns (bool) {
 		if(! winner.send(5)) {
 			return false;
@@ -68,6 +79,8 @@ contract TinyGame {
 		return true;
 	}
 
+=======
+>>>>>>> c9d6552f3720d359e868523706eb6c94e0b94ef4
 	function transferDoll(address _recipient, uint[] dollList) public returns (bool) {
 		if (dollList.length != 5) return false; //dollList must have 5 items
 		initAddress(msg.sender);
