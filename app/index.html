@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>Catching Dolls!</title>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h2>pic</h2>
+    <br>
+    <br>
+  <h2>buttons</h2>
+ 
+  <br><button type="button" id="catch" onclick="App.catch()">Catch!</button>
+  <br><button type="button" id="submit" onclick="App.submit()">Get Prize!</button>
+  <br><button type="button" id="transfer" onclick="App.transfer()">Transfer</button>
+  <br>  
+  <h2>dolls in possesion</h2>
+  <br>
+  <div id="dolls">
+    <br><label for="dolls">Dolls:</label>
+    <br><span id="dollList"></span>
+  </div>
+
+  <h2>Transfer</h2>
+  <div id="form">
+    <br><label for="recipient">To Address:</label><input type="text" id="recipient" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+    <br><label for="transferItems">Doll List:</label><input type="text" id="transferItems" placeholder="0 1 0 1 1"></input>
+  </div>
+  <br>
+  <br><span id="hint"></span>
+</body>
+</html>
