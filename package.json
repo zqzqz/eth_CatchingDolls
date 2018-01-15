@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "node src/app.js"
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",
@@ -35,6 +35,8 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
-    "eth-random": "0.0.4-alpha.1"
+    "eth-random": "0.0.4-alpha.1",
+    "express": "^4.16.2",
+    "hbs": "^4.0.1"
   }
 }

@@ -6,7 +6,7 @@ import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
-import tinygame_artifacts from '../../build/contracts/TinyGame.json'
+import tinygame_artifacts from '../../../build/contracts/TinyGame.json'
 
 // TinyGame is our usable abstraction, which we'll use through the code below.
 var TinyGame = contract(tinygame_artifacts);

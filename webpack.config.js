@@ -1,20 +1,24 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+
+var entry_map = {
+  'index': './src/public/javascripts/index.js',
+}
+
 
 module.exports = {
-  entry: './app/javascripts/app.js',
+  entry: entry_map,
+  devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'app.js'
+    path: path.resolve(__dirname, 'src/public/dist'),
+    filename: '[name].js'
   },
   plugins: [
     // Copy our app's index.html to the build folder.
     new CopyWebpackPlugin([
-      { from: './app/index.html', to: "index.html" }
+      { from: './src/views/index.html', to: "index.html" }
     ]),
-    new CopyWebpackPlugin([
-      { from: './app/index.html', to: "form.html" }
-    ])
   ],
   module: {
     rules: [
