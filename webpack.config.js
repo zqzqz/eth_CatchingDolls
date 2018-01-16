@@ -3,7 +3,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 var entry_map = {
-  'index': './src/public/javascripts/index.js',
+  'index': './src/public/javascripts/app.js',
+  'transfer': './src/public/javascripts/transfer.js',
 }
 
 

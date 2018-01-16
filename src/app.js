@@ -16,6 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('connect-history-api-fallback')())
 
 // compile webpack: same function as "npm run build"
+/*
 var compiler = webpack(config);
 app.use(webpackMiddleware(compiler, {
     // public path should be the same with webpack config
@@ -25,6 +26,7 @@ app.use(webpackMiddleware(compiler, {
       colors: true
     }
 }));
+*/
 
 var server = app.listen(3000, function() {
 	var host = server.address().address;

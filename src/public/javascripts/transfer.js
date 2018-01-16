@@ -8,21 +8,37 @@ import { default as contract } from 'truffle-contract'
 // Import our contract artifacts and turn them into usable abstractions.
 import tinygame_artifacts from '../../../build/contracts/TinyGame.json'
 
-// TinyGame is our usable abstraction, which we'll use through the code below.
-var TinyGame = contract(tinygame_artifacts);
-
-// The following code is simple to show off interacting with your contracts.
-// As your needs grow you will likely need to change its form and structure.
-// For application bootstrapping, check out window.addEventListener below.
+// global var
+var TinyGame;
 var accounts;
 var account;
+// event instances
+var TransferEvent;
 
 window.App = {
+  
+  /*
+   * entry function: init account, contract and event
+   */
   start: function() {
     var self = this;
-
+    TinyGame = contract(tinygame_artifacts);
+    console.log(TinyGame);
     // Bootstrap the TinyGame abstraction for Use.
     TinyGame.setProvider(web3.currentProvider);
+    
+    // assign and watch events
+    TinyGame.deployed().then(function(instance) {
+      //assign events
+      TransferEvent = instance.Transfer();
+    }).then(function() {
+      // watch events
+      TransferEvent.watch(function(error, result) {
+        if (!error) {
+          alert("You have transfer your dolls to your friend successfully!");
+        }
+      });
+    });
 
     // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
@@ -38,20 +54,18 @@ window.App = {
 
       accounts = accs;
       account = accounts[0];
-
       self.refreshList();
     });
   },
 
-  setStatus: function(message) {
-    var status = document.getElementById("hint");
-    status.innerHTML = message;
-  },
-
+  /*
+   * update account's doll possession list
+   */
   refreshList: function() {
     var self = this;
 
     var game;
+
     TinyGame.deployed().then(function(instance) {
       game = instance;
       return game.getDollsByAddress.call(account);
@@ -60,25 +74,13 @@ window.App = {
       element.innerHTML = value.valueOf();
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error; see log.");
     });
   },
 
 
-  catch: function() {
-    var self = this;
-    var game;
-    TinyGame.deployed().then(function(instance) {
-      game = instance;
-      return game.payToCatch.sendTransaction({from: account, value: web3.toWei(1, "ether")});
-    }).then(function(value) {
-      self.refreshList();
-    }).catch(function(e) {
-      console.log(e);
-      self.setStatus("Operation failed");
-    });
-  },
-
+  /*
+   * callee of transfer button in transfer page
+   */
   transfer: function() {
     var self = this;
     var game;
@@ -88,7 +90,6 @@ window.App = {
     console.log(recipient);
     console.log(items);
     if (items.length!=5) {
-      self.setStatus("wrong input");
       return;
     }
 
@@ -100,23 +101,6 @@ window.App = {
       self.refreshList();
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Operation failed");
-    });
-  },
-
-  submit: function() {
-    var self = this;
-    var game;
-    TinyGame.deployed().then(function(instance) {
-      game = instance;
-      return game.submit.sendTransaction({from: account});
-    }).then(function(value) {
-      console.log(value);
-      self.setStatus("submit successfully");
-      self.refreshList();
-    }).catch(function(e) {
-      console.log(e);
-      self.setStatus("Operation failed");
     });
   },
 };
@@ -132,6 +116,6 @@ window.addEventListener('load', function() {
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"));
   }
-
   App.start();
+
 });
