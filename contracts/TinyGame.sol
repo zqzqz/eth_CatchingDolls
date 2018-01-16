@@ -1,28 +1,32 @@
 pragma solidity ^0.4.17;
 import "eth-random/contracts/Random.sol";
+import "./TinyGameStore.sol";
 
 contract TinyGame {
 	mapping(address => uint[]) ownership;
 	address owner;
 	Random random;
+	TinyGameStore store;
 
 
 	event PayOnce(address payer);
 	event SubmitSuccess(address winner);
 	event Transfer(address sender, address recipient);
 
-	function TinyGame(address randomAddress) public {
+	function TinyGame(address randomAddress, address storeAddress) public {
 		owner = msg.sender;
 		random = Random(randomAddress);
+		store = TinyGameStore(storeAddress);
 	}
 
-	function payToCatch() public payable returns (uint) {
-		//require(msg.value==1);
+	function payToCatch() public payable {
+		require(msg.value==1 ether);
 		PayOnce(msg.sender); //event
-		return catchDoll(msg.sender);
+		bool re = catchDoll(msg.sender);
+		require(re);
 	}
 
-	function catchDoll(address _user) internal returns (uint) {
+	function catchDoll(address _user) internal returns (bool) {
 		uint dollID = 0;
 		//generate a random number in scale 100
 		uint randint = random.random(100);
@@ -34,10 +38,10 @@ contract TinyGame {
 		else if (randint < 80) dollID = 3;
 		else dollID = 4;
 		//write changes to map ownership
-		require(dollID>=0 && dollID<=4);
+		if (dollID<0 || dollID>4) return false;
 		initAddress(_user);
 		ownership[_user][dollID]++;
-		return dollID;
+		return true;
 	}
 
 	function initAddress(address _user) internal {
@@ -49,12 +53,13 @@ contract TinyGame {
 		}
 	}
 
-	function submit() public returns (bool) {
+	function submit() public {
 		initAddress(msg.sender);
 		for (uint dollID=0; dollID<5; dollID++) {
-			if (ownership[msg.sender][dollID]<=0) return false;
+			require(ownership[msg.sender][dollID]>0);
 		}
-		if(!sendPrize(msg.sender)) return false;
+		bool prize = sendPrize(msg.sender);
+		require(prize);
 		for (dollID=0; dollID<5; dollID++) {
 			ownership[msg.sender][dollID]--;
 		}
@@ -63,20 +68,18 @@ contract TinyGame {
 
 
 	function sendPrize(address winner) internal returns (bool) {
-		if(! winner.send(3)) {
-			return false;
-		}
-		return true;
+		bool retprize = store.sendPrize(winner);
+		return retprize;
 	}
 
 
 	function transferDoll(address _recipient, uint[] dollList) public returns (bool) {
-		if (dollList.length != 5) return false; //dollList must have 5 items
+		require(dollList.length == 5); //dollList must have 5 items
 		initAddress(msg.sender);
 		initAddress(_recipient);
 		// check sender has enough dolls
 		for (uint dollID=0; dollID<5; dollID++) {
-			if(ownership[msg.sender][dollID]<dollList[dollID]) return false;
+			require(ownership[msg.sender][dollID]>=dollList[dollID]);
 		}
 		// transfer
 		for (dollID=0; dollID<5; dollID++) {
@@ -90,8 +93,16 @@ contract TinyGame {
 		initAddress(_user);
 		return ownership[_user];
 	}
+	
+	function withdraw(uint ammount) public {
+		//require(msg.sender == owner);
+		msg.sender.send(ammount);
+	}
 
-
+	function showBalance() public returns (uint) {
+		//require(msg.sender == owner);
+		return this.balance;
+	}
 }
 
 
