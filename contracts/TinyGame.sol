@@ -9,7 +9,7 @@ contract TinyGame {
 	TinyGameStore store;
 
 
-	event PayOnce(address payer);
+	event PayOnce(address payer, uint dollID);
 	event SubmitSuccess(address winner);
 	event Transfer(address sender, address recipient);
 
@@ -21,12 +21,12 @@ contract TinyGame {
 
 	function payToCatch() public payable {
 		require(msg.value==0.001 ether);
-		bool re = catchDoll(msg.sender);
-		require(re);
-		PayOnce(msg.sender); //event
+		uint re = catchDoll(msg.sender);
+		require(re != 5);
+		PayOnce(msg.sender, re); //event
 	}
 
-	function catchDoll(address _user) internal returns (bool) {
+	function catchDoll(address _user) internal returns (uint) {
 		uint dollID = 0;
 		//generate a random number in scale 100
 		uint randint = random.random(100);
@@ -38,10 +38,10 @@ contract TinyGame {
 		else if (randint < 80) dollID = 3;
 		else dollID = 4;
 		//write changes to map ownership
-		if (dollID<0 || dollID>4) return false;
+		if (dollID<0 || dollID>4) return 5;
 		initAddress(_user);
 		ownership[_user][dollID]++;
-		return true;
+		return dollID;
 	}
 
 	function initAddress(address _user) internal {
@@ -88,9 +88,9 @@ contract TinyGame {
 		return ownership[_user];
 	}
 	
-	function withdraw(uint ammount) public {
-		//require(msg.sender == owner);
-		msg.sender.send(ammount);
+	function withdraw() public {
+		require(msg.sender == owner);
+		msg.sender.send(this.balance);
 	}
 
 	function showBalance() public returns (uint) {

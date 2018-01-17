@@ -13,6 +13,9 @@ contract('TinyGame', function(accounts) {
 	    game = instance;
 	  }).then(function() {
             game.loadPrize.sendTransaction({from:supply, value:web3.toWei(50, "ether")});
+	    return game.showBalance.call();
+	  }).then(function(b) {
+	    console.log("balance of contract: ", b.toNumber());
 	  });
 	});
 
@@ -21,28 +24,36 @@ contract('TinyGame', function(accounts) {
 	  return TinyGame.deployed().then(function(instance) {
 	    game = instance;
 	  }).then(function() {
+            console.log("user address:", user);
             for(var i=0; i<20; i++) game.payToCatch.sendTransaction({from:user, value:web3.toWei(0.001, "ether")});
 	  }).then(function() {
 	    return game.getDollsByAddress(user);
 	  }).then(function(b) {
 	    console.log(b);
+	    return game.showBalance.call();
+	  }).then(function(b) {
+	    console.log("balance of contract: ", b.toNumber());
 	  })
 	});
 	
 	it("submit a full group of dolls", function() {
 	  return TinyGame.deployed().then(function(instance) {
 	    game = instance;
-	    console.log(web3.eth.getBalance(user).toNumber());
+	    console.log("balance of user: ", web3.eth.getBalance(user).toNumber());
 	    return game.getDollsByAddress.call(user);
 	  }).then(function(c) {
 	    console.log(c);
 	    return game.submit.sendTransaction({from:user});
 	  }).then(function(b) {
-	    console.log(b);
-	    console.log(web3.eth.getBalance(user).toNumber());
+	    console.log("balance of user: ", web3.eth.getBalance(user).toNumber());
 	    return game.getDollsByAddress.call(user);
 	  }).then(function(c) {
 	    console.log(c);
+	    Store.deployed().then(function(instance) {
+	      return instance.showBalance.call();
+	    }).then(function(b) {
+	      console.log("balance of contract: ", b.toNumber());
+	    });
 	  });
 	});
 
@@ -51,13 +62,14 @@ contract('TinyGame', function(accounts) {
 	    game = instance;
             return game.transferDoll.sendTransaction(recipicent, [1,0,0,0,0]);
 	  }).then(function(b) {
-	    console.log(b);
+	    //console.log(b);
 	    return game.getDollsByAddress.call(user);
 	  }).then(function(c) {
 	    console.log(c);
 	    return game.getDollsByAddress.call(recipicent);
 	  }).then(function(c) {
 	    console.log(c);
+	    console.log("balance of user: ", web3.eth.getBalance(user).toNumber());
 	  });
 	});	
 });

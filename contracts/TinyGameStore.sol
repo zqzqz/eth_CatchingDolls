@@ -7,11 +7,11 @@ contract TinyGameStore {
 
 	function TinyGameStore() public {
 		owner = msg.sender;
-		prize = 3000000000000;
+		prize = 1000000000000000000;
 	}
 
 	function sendPrize(address winner) public returns (bool) {
-		if(! winner.send(prize)) {
+		if(! winner.send(prize) ) {
 			return false;
 		}
 		return true;
