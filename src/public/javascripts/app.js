@@ -49,38 +49,10 @@ App = {
         App.accounts = accs;
         App.account = App.accounts[0];
       }); 
-      return App.addEvent();
+      return App.loadPage();
     });  
   },  
-
-  addEvent: function() {
-    web3.eth.getBlock('latest', function(error, result) {
-      if(!error) App.block = result.number;
-      else App.block = 0;
-    });
-  
-    // assign and watch events
-    App.contracts.TinyGame.deployed().then(function(instance) {
-        //assign events
-        instance.PayOnce({'payer':App.account}, {fromBlock:App.block+1, toBlock:'latest'})
-          .watch(function(error, result) {
-            console.log('catch watched', result);
-	    if (!error && result.blockNumber > block) {
-              console.log("You have caught a doll successfully!");
-            }
-        });
-
-        instance.SubmitSuccess({'winer':App.account}, {fromBlock:App.block+1, toBlock:'latest'})
-          .watch(function(error, result) {
-            console.log('submit watched', result);
-	    if (!error && result.blockNumber > block) {
-              console.log("You will receive the prize later! This may takes seconds");
-            }
-        }); 
-    });
-    return App.loadPage();
-  },
-    
+   
   loadPage: function() {
     // load dolls
     $.getJSON('../jsons/doll.json', function(data) {
@@ -95,7 +67,7 @@ App = {
 
     });
      
-    App.refreshList();
+    return App.refreshList();
   },
 
   /*
@@ -113,21 +85,20 @@ App = {
   refreshList: function() {
 
     var game;
+    if (App.contract === 'undefined') return false;
     App.contracts.TinyGame.deployed().then(function(instance) {
       game = instance;
       return game.getDollsByAddress.call(App.account);
     }).then(function(value) {
-      console.log(value);
       // load dolls number
-      var dolsRow = $('#dollsRow');
-      for (var i = 0; i < 5; i++) {
-        var item = $('#dollsRow').eq(i).find('.doll-num');
-	item.text(value[i]);
+      for (var i = 0; i < 5; i = i + 1) {
+        $('.panel-doll').eq(i).find('.doll-num').text(value[i].toNumber());
       }
-
+      return true;
     }).catch(function(e) {
       console.log(e);
       App.setStatus("Error; see log.");
+      return false;
     });
   },
 
@@ -135,15 +106,12 @@ App = {
    * callee of catch button
    */
   catch: function() {
-
     var game;
     App.contracts.TinyGame.deployed().then(function(instance) {
       game = instance;
-      game.payToCatch.sendTransaction({from: App.account, value: web3.toWei(0.001, "ether")});
+      game.payToCatch.sendTransaction({from: App.account, value: web3.toWei(0.01, "ether")});
     }).then(function(value) {
-        $.getJSON('../jsons/doll.json').then(function(data) {
-          $('.pic').find('img').attr('src', data[0].picture);
-	});
+      console.log("catch transaction sent");
     }).catch(function(e) {
       console.log(e);
       App.setStatus("Operation failed");
@@ -159,7 +127,7 @@ App = {
     // watch events 
     App.contracts.TinyGame.deployed().then(function(instance) {
       game = instance;
-      return game.submit.sendTransaction({from: App.account, value:0});
+      return game.submit.sendTransaction({from: App.account});
     }).then(function(value) {
       console.log(value);
       App.setStatus("submit successfully");
@@ -192,7 +160,9 @@ App = {
 
 $(function() {
   $(window).load(function() {
+      
     App.init();
-  });
+
+    });
 });
 

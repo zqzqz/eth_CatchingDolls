@@ -1,35 +1,43 @@
 <script src="/javascripts/app.js"></script>
+<script src="/javascripts/event.js"></script>
 <link href="/stylesheets/app.css" rel="stylesheet">
 
-  <h1>LUCKY DOG!!</h2>
-    <br>
-    <br>
-    
-  <div class="pic">
-    <img alt="catched-img" class="img-rounded img-center" height=100 width=100 src="images/unknown.jpeg" >
+<div>
+    <h1>LUCKY DOG!!</h1>
+    </br></br></br>
+</div>
+
+<div class="container">
+  <div class="pic row">
+    <div class="col-md-4 col-center-block">  
+    <img alt="catched-img" class="img-rounded img-center" height=200 width=200 src="images/unknown.jpeg" >
+    </div>
   </div>
-  
-  <div id='catch' class="catch">
-    <br><button type="button" id="catch" onclick="App.catch()">Catch!</button>
+  <div class="row">
+    <div id='catch' class="col-md-2 col-center-block">
+      <br><button type="button" id="catch" onclick="App.catch()">Catch!</button>
+    </div>
+  </div>
+<div>
+</br></br> 
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-push-2">
+      <h4 class="text-center">Your Possession</h4>
+      <hr/>
+      <br/>
+    </div>
   </div>
 
-  <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h3 class="text-center">Your Possession</h3>
-          <hr/>
-          <br/>
-        </div>
-      </div>
-
-      <div id="dollsRow" class="row">
+  <div id="dollsRow" class="row">
         <!-- DOLLS LOAD HERE -->
-      </div>
   </div>
+</div>
 
   <div id="dollTemplate" style="display: none;">
       <div class="col">
-        <div class="panel panel-default">
+        <div class="panel panel-default panel-doll">
           <div class="panel-heading">
             <h3 class="panel-title">XX DOG</h3>
           </div>
@@ -42,11 +50,20 @@
       </div>
     </div>
 
-  <div class="bottom-btn">
-    <br><button type="button" id="submit" onclick="App.submit()">Get Prize!</button>
-    <br><button type="button" id="transfer" onclick="window.location.href='/transfer' " >Transfer</button>
+<div class="container">
+  <div class="bottom-btn row">
+    <div class="col-md-2 col-center-block">
+      <br><button type="button" id="submit" onclick="App.submit()">Get Prize!</button>
+    </div>  
+    <div class="col-md-2 col-center-block">
+      <br><button type="button" id="transfer" onclick="window.location.href='/transfer' " >Transfer</button>
+    </div>
   </div>
 
-  <div class="msg">
+  <div class="msg row">
     <br><span id="hint"></span>
   </div>
+</div>
+</br>
+</br>
+</br>

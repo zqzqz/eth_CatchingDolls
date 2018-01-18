@@ -20,7 +20,7 @@ contract TinyGame {
 	}
 
 	function payToCatch() public payable {
-		require(msg.value==0.001 ether);
+		require(msg.value==0.01 ether);
 		uint re = catchDoll(msg.sender);
 		require(re != 5);
 		PayOnce(msg.sender, re); //event
@@ -55,13 +55,14 @@ contract TinyGame {
 
 	function submit() public {
 		initAddress(msg.sender);
-		for (uint dollID=0; dollID<5; dollID++) {
-			require(ownership[msg.sender][dollID]>0);
+		uint _id = 0;
+		
+		for (_id=0; _id<5; _id++) {
+			require(ownership[msg.sender][_id]>0);
 		}
-		bool prize = store.sendPrize(msg.sender);
-		require(prize == true);
-		for (dollID=0; dollID<5; dollID++) {
-			ownership[msg.sender][dollID]--;
+		msg.sender.send(100000000000000000);
+		for (_id=0; _id<5; _id++) {
+			ownership[msg.sender][_id]--;
 		}
 		SubmitSuccess(msg.sender); //event
 	}
@@ -96,6 +97,10 @@ contract TinyGame {
 	function showBalance() public returns (uint) {
 		//require(msg.sender == owner);
 		return this.balance;
+	}
+
+	function loadBalance() public payable {
+		//require(msg.sender == owner);
 	}
 }
 

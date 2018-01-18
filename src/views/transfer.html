@@ -1,4 +1,5 @@
 <script src="/javascripts/app.js"></script>
+<script src="/javascripts/event.js"></script>
 <link href="/stylesheets/app.css" rel="stylesheet">
 <h2>Transfer</h2>
   <div id="form">
@@ -6,4 +7,35 @@
     <br><label for="transferItems">Doll List:</label><input type="text" id="transferItems" placeholder="0 1 0 1 1"></input>
     <br><button type="button" id="transfer" onclick="App.transfer()">Transfer</button>
   </div>
-<br>
+  <br>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-push-2">
+      <h4 class="text-center">Your Possession</h4>
+      <hr/>
+      <br/>
+    </div>
+  </div>
+
+  <div id="dollsRow" class="row">
+        <!-- DOLLS LOAD HERE -->
+  </div>
+</div>
+
+  <div id="dollTemplate" style="display: none;">
+      <div class="col">
+        <div class="panel panel-default panel-doll">
+          <div class="panel-heading">
+            <h3 class="panel-title">XX DOG</h3>
+          </div>
+          <div class="panel-body">
+            <img alt="img" height=80 width=80 src="images/dog0.jpeg" >
+            <br/><br/>
+            <span class="doll-num">0</span></br></br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
