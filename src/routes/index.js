@@ -1,16 +1,14 @@
-// routes/index.js
-// import modules
+var express = require('express');
+var router = express.Router();
 
-module.exports = function (app) {
-	
-	app.get('/', function(req, res) {
-		res.render('index');
-	});
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index');
+});
 
-	app.get('/transfer', function(req, res) {
-		res.render('transfer');
-	});
+/* GET transfer page. */
+router.get('/transfer', function(req, res, next) {
+  res.render('transfer');
+});
 
-};
-
-
+module.exports = router;
