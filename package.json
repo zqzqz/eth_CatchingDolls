@@ -1,11 +1,11 @@
 {
-  "name": "truffle-init-webpack",
+  "name": "tiny-game",
   "version": "0.0.2",
   "description": "Frontend example using truffle v3",
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "dev": "node src/app.js"
+    "dev": "node src/bin/www"
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",
@@ -31,12 +31,18 @@
     "style-loader": "^0.13.1",
     "truffle-contract": "^1.1.11",
     "web3": "^0.20.0",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack": "^2.2.1"
   },
   "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
     "eth-random": "0.0.4-alpha.1",
     "express": "^4.16.2",
-    "hbs": "^4.0.1"
+    "express-session": "^1.15.6",
+    "hbs": "^4.0.1",
+    "mongoose": "^5.0.0",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5"
   }
 }

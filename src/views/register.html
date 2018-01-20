@@ -75,13 +75,13 @@
           var username = $("#username").val();
           var password = $("#password").val();
           var password1 = $("#password1").val();
-          var email = $("email").val();
-          var publickey = $("publickey").val();
+          var email = $("#email").val();
+          var publickey = $("#publickey").val();
           if(password !== password1){ 
               $("#password").css("border","1px solid red");
               $("#password1").css("border","1px solid red");
           }else if(password === password1){
-          var data = {"username":username,"password":password, "email":email, "publickey":publickey};
+            var data = {"username":username,"password":password, "email":email, "publickey":publickey};
           $.ajax({ 
               url: '/register',
               type: 'post',
@@ -91,8 +91,9 @@
                       location.href = 'login';
                   }
               },
-              error: function(data,err){ 
-                      location.href = 'register';
+              error: function(data,err){
+                  console.log(err);
+                  location.href = 'register';
               }
           }); 
       }

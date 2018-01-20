@@ -40,8 +40,6 @@
     </form>
 </div>
 
-<script type="text/javascript" src="javascripts/jquery.min.js"></script>
-<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
 <script type="text/javascript">
 $(function(){ 
     $("#register0").click(function(){ 
@@ -56,7 +54,8 @@ $(function(){
             type:'post',
             data: data,
             success: function(data,status){ 
-                if(status == 'success'){ 
+              if(status == 'success'){ 
+                    console.log("login");
                     location.href = '';
                 }
             },

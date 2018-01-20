@@ -48,6 +48,20 @@ App = {
    
         App.accounts = accs;
         App.account = App.accounts[0];
+        var user = $("#user").find(".username").text();
+        console.log("user",user);
+        $.ajax({
+          url:'/checkAccount',
+          type:'post',
+          data:{"username":user, "publickey": App.account},
+          success: function(data, status) {
+            console.log("account correct");
+          },
+          error: function(data, status) {
+            console.log("account wrong");
+            alert("当前以太坊账户与您注册的公钥地址不符，强烈建议更换正确的公钥地址");
+          }
+        });
       }); 
       return App.loadPage();
     });  
@@ -141,10 +155,26 @@ App = {
    * callee of tranfer button in transfer page
    */
   transfer: function() {
+    var recipient = document.getElementById("recipient").value;
+    $.ajax({
+      url:'/checkAccount',
+      type:'post',
+      data:{"username":"", "publickey": recipient},
+      success: function(data, status) {
+        console.log("account correct");
+        self.doTransfer();
+      },
+      error: function(data, status) {
+        console.log("account wrong");
+        alert("该公钥地址未注册，请检查");
+      }
+    });
+  },
+
+  doTranfer: function() {
     var game;
     var items = document.getElementById("transferItems").value.split(' ');
     var recipient = document.getElementById("recipient").value;
-
     App.contracts.TinyGame.deployed().then(function(instance) {
       game = instance;
       return game.transferDoll.sendTransaction(recipient, items, {from: App.account});
