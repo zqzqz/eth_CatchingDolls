@@ -5,10 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var index = require('./routes/index');
-var users = require('./routes/users');
+var admin = require('./routes/admin');
 var hbs = require('hbs');
 var app = express();
-var multer = require('multer');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
@@ -53,7 +52,8 @@ app.use(function(req, res, next) {
 app.use('/', index);
 app.use('/transfer', index);
 app.use('/login', index);
-app.use('/users', users);
+app.use('/admin-eth-game', admin);
+app.use('/users', admin);
 app.use('/register', index);
 app.use('/checkAccount', index);
 

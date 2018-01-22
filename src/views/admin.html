@@ -1,0 +1,54 @@
+<script src="/javascripts/admin.js"></script>
+<div class="container" id="basicInfo">
+  <div class="row">
+    <h1>管理后台</h1>
+  </div>
+  <div class="row">
+    <p>server: nodejs-express; powered by eth-contract; developed by truffle.</p>
+  </div>
+<div>
+
+<div class="container" id="contractInfo">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>合约账户余额</h4>
+    </div>
+    <div class="col-md-6">
+      <span id="balance">0</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <h4>账户充值</h4>
+    </div>
+    <div class="col-md-6">
+      <input type="text" id="loadBalance" placeholder="以eth为单位(1 eth = 10^18 wei)"></input>
+    </div>
+    <div class="col-md-3">
+      <button type="button" id="loadbtn" onclick="Admin.loadBalance()">充值</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <h4>提取余额</h4>
+    </div>
+    <div class="col-md-6">
+      <input type="text" id="fetchBalance" placeholder="以eth为单位(1 eth = 10^18 wei)"></input>
+    </div>
+    <div class="col-md-3">
+      <button type="button" id="fetchbtn" onclick="Admin.fetchBalance()">提取</button>
+    </div>
+  </div>
+</div>
+
+</br>
+</br>
+<div class="container" id="userInfo">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>用户数量</h4>
+    </div>
+    <div class="col-md-6">
+      <span>{{{usernum}}}</span>
+    </div>
+  </div>

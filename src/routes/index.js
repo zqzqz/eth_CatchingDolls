@@ -1,6 +1,8 @@
 var express = require('express');
+var crypto = require('crypto');
 var router = express.Router();
 var session = require('express-session');
+var md5 = crypto.createHash('md5');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -32,7 +34,8 @@ router.route('/login').get( function(req, res, next) {
       res.sendStatus(404);
     }
     else {
-      if (req.body.password != doc.password) {
+      var _password = md5.update(req.body.password).digest('hex');
+      if (_password != doc.password) {
         req.session.error = "密码错误";
         res.sendStatus(404);
       }
@@ -74,6 +77,7 @@ router.route('/register').get( function(req, res, next) {
     res.sendStatus(404);
   }
   else {
+    _password = md5.update(_password).digest("hex");
     User.findOne({username:_username}, function(err, doc) {
       if (err) {
         console.log(err);
@@ -89,7 +93,8 @@ router.route('/register').get( function(req, res, next) {
           username:_username,
           password:_password,
           email:_email,
-          publickey:_publickey
+          publickey:_publickey,
+          superuser: false
         }, function (err, doc) {
           if (err) {
             console.log(err);

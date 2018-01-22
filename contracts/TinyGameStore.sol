@@ -11,6 +11,7 @@ contract TinyGameStore {
 	}
 
 	function sendPrize(address winner) public returns (bool) {
+		require(msg.sender == owner);
 		if(! winner.send(prize) ) {
 			return false;
 		}

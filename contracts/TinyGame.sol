@@ -60,7 +60,7 @@ contract TinyGame {
 		for (_id=0; _id<5; _id++) {
 			require(ownership[msg.sender][_id]>0);
 		}
-		msg.sender.send(100000000000000000);
+		msg.sender.transfer(100000000000000000);
 		for (_id=0; _id<5; _id++) {
 			ownership[msg.sender][_id]--;
 		}
@@ -89,21 +89,26 @@ contract TinyGame {
 		return ownership[_user];
 	}
 	
-	function withdraw() public {
+	function fetchBalance(uint ammount) public {
 		require(msg.sender == owner);
-		msg.sender.send(this.balance);
+		msg.sender.transfer(ammount);
 	}
 
 	function showBalance() public returns (uint) {
-		//require(msg.sender == owner);
+		require(msg.sender == owner);
 		return this.balance;
 	}
 
 	function loadBalance() public payable {
-		//require(msg.sender == owner);
+		require(msg.sender == owner);
+	}
+
+	function kill() {
+		if (owner == msg.sender) {
+			selfdestruct(owner);
+		}
 	}
 }
-
 
 
 
