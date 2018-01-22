@@ -9,10 +9,10 @@ contract('TinyGame', function(accounts) {
 	var supply = accounts[9];
 
 	it("prepare", function() {
-	  return Store.deployed().then(function(instance) {
+	  return TinyGame.deployed().then(function(instance) {
 	    game = instance;
 	  }).then(function() {
-            game.loadPrize.sendTransaction({from:supply, value:web3.toWei(50, "ether")});
+            game.loadBalance.sendTransaction({from:supply, value:web3.toWei(5, "ether")});
 	    return game.showBalance.call();
 	  }).then(function(b) {
 	    console.log("balance of contract: ", b.toNumber());
@@ -25,7 +25,7 @@ contract('TinyGame', function(accounts) {
 	    game = instance;
 	  }).then(function() {
             console.log("user address:", user);
-            for(var i=0; i<20; i++) game.payToCatch.sendTransaction({from:user, value:web3.toWei(0.001, "ether")});
+            for(var i=0; i<20; i++) game.payToCatch.sendTransaction({from:user, value:web3.toWei(0.01, "ether")});
 	  }).then(function() {
 	    return game.getDollsByAddress(user);
 	  }).then(function(b) {
@@ -49,11 +49,10 @@ contract('TinyGame', function(accounts) {
 	    return game.getDollsByAddress.call(user);
 	  }).then(function(c) {
 	    console.log(c);
-	    Store.deployed().then(function(instance) {
-	      return instance.showBalance.call();
-	    }).then(function(b) {
-	      console.log("balance of contract: ", b.toNumber());
-	    });
+	    return game.showBalance.call();
+	  }).then(function(b) {
+	    console.log("balance of contract: ", b.toNumber());
+	    console.log("balance of user: ", web3.eth.getBalance(user).toNumber());
 	  });
 	});
 
