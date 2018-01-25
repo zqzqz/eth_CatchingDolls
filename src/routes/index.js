@@ -2,14 +2,9 @@ var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
 var session = require('express-session');
-var md5 = crypto.createHash('md5');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if (! req.session.user) {
-    req.session.error = "请先登录";
-    res.redirect("/login");
-  }
   res.render('index');
 });
 
@@ -34,6 +29,7 @@ router.route('/login').get( function(req, res, next) {
       res.sendStatus(404);
     }
     else {
+      var md5 = crypto.createHash('md5');
       var _password = md5.update(req.body.password).digest('hex');
       if (_password != doc.password) {
         req.session.error = "密码错误";
@@ -56,12 +52,12 @@ router.route('/register').get( function(req, res, next) {
   var _password = req.body.password;
   var _email = req.body.email;
   var _publickey = req.body.publickey;
-  var username_pattern = /^[a-zA-Z0-9_\-]{5,16}$/;
+  var username_pattern = /^[a-zA-Z0-9_\-]{5,20}$/;
   var password_pattern = /^[a-zA-Z0-9_\-!@#$%^&*?]{6,20}$/;
   var email_pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   var publickey_pattern = /^0x[0-9a-fA-F]{40}$/;
   if (! username_pattern.test(_username)) {
-    req.session.error = "用户名错误（5-16位数字字母以及_-）";
+    req.session.error = "用户名错误（5-20位数字字母以及_-）";
     res.sendStatus(404);
   }
   else if (! password_pattern.test(_password)) {
@@ -77,6 +73,7 @@ router.route('/register').get( function(req, res, next) {
     res.sendStatus(404);
   }
   else {
+    var md5 = crypto.createHash('md5');
     _password = md5.update(_password).digest("hex");
     User.findOne({username:_username}, function(err, doc) {
       if (err) {

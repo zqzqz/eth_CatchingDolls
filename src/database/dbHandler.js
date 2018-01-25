@@ -9,7 +9,7 @@ for (var m in models) {
 module.exports = {
   getModel: function(type) {
     return _getModel(type);
-  }
+  },
 };
 
 var _getModel = function(type) {

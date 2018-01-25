@@ -1,22 +1,18 @@
 pragma solidity ^0.4.17;
 import "eth-random/contracts/Random.sol";
-import "./TinyGameStore.sol";
 
 contract TinyGame {
-	mapping(address => uint[]) ownership;
+	mapping(address => uint[5]) ownership;
 	address owner;
 	Random random;
-	TinyGameStore store;
-
 
 	event PayOnce(address payer, uint dollID);
 	event SubmitSuccess(address winner);
 	event Transfer(address sender, address recipient);
 
-	function TinyGame(address randomAddress, address storeAddress) public {
+	function TinyGame(address randomAddress) public {
 		owner = msg.sender;
 		random = Random(randomAddress);
-		store = TinyGameStore(storeAddress);
 	}
 
 	function payToCatch() public payable {
@@ -39,22 +35,12 @@ contract TinyGame {
 		else dollID = 4;
 		//write changes to map ownership
 		if (dollID<0 || dollID>4) return 5;
-		initAddress(_user);
+		//initAddress(_user);
 		ownership[_user][dollID]++;
 		return dollID;
 	}
 
-	function initAddress(address _user) internal {
-		if (ownership[_user].length != 5) {
-			ownership[_user] = new uint[](5);
-			for (uint index=0; index<5; index++) {
-				ownership[_user][index] = 0;
-			}
-		}
-	}
-
 	function submit() public {
-		initAddress(msg.sender);
 		uint _id = 0;
 		
 		for (_id=0; _id<5; _id++) {
@@ -70,8 +56,6 @@ contract TinyGame {
 
 	function transferDoll(address _recipient, uint[] dollList) public returns (bool) {
 		require(dollList.length == 5); //dollList must have 5 items
-		initAddress(msg.sender);
-		initAddress(_recipient);
 		// check sender has enough dolls
 		for (uint dollID=0; dollID<5; dollID++) {
 			require(ownership[msg.sender][dollID]>=dollList[dollID]);
@@ -84,8 +68,7 @@ contract TinyGame {
 		Transfer(msg.sender, _recipient); //event
 	}
 
-	function getDollsByAddress(address _user) public returns (uint[]) {
-		initAddress(_user);
+	function getDollsByAddress(address _user) public returns (uint[5]) {
 		return ownership[_user];
 	}
 	

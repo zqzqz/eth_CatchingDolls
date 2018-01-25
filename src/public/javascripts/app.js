@@ -162,7 +162,7 @@ App = {
       data:{"username":"", "publickey": recipient},
       success: function(data, status) {
         console.log("account correct");
-        self.doTransfer();
+        App.doTransfer();
       },
       error: function(data, status) {
         console.log("account wrong");
@@ -171,7 +171,7 @@ App = {
     });
   },
 
-  doTranfer: function() {
+  doTransfer: function() {
     var game;
     var items = document.getElementById("transferItems").value.split(' ');
     var recipient = document.getElementById("recipient").value;
@@ -183,7 +183,7 @@ App = {
     }).catch(function(e) {
       console.log(e);
     });
-  },
+  }
 };
 
 

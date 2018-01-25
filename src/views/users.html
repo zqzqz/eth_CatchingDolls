@@ -1,1 +1,95 @@
-<h1>{{{page}}}</h1>
+<h1>用户列表</h1>
+
+<div class="row" id="search">
+  <div class="col-md-4">
+    <input type="text" class="form-control" placeholder="搜索用户名或公钥" >
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary">搜索</button>
+  </div>
+</div>
+</br>
+<table class="table" id="tab">
+  <tr>
+    <td>用户名</td>
+    <td>邮箱</td>
+    <td>公钥地址</td>
+  </tr>
+  <div id="userRow">
+    <!-- user data here -->
+    {{#data}}
+    <tr>
+      <td>{{username}}</td>
+      <td>{{email}}</td>
+      <td>{{publickey}}</td>
+    </tr>
+    {{/data}}
+  </div>
+</table>
+
+<div id="userTemplate" style="display: none;" >
+  <tr>
+    <td id="username">username</td>
+    <td id="email">email</td>
+    <td id="publickey">publickkey</td>
+  </tr>
+</div>
+
+
+<div class="page row">
+  <div class="col">
+    <button type="button" class="btn btn-primary" id="pageBefore" >上一页</button>
+  </div>
+  <div class="col">
+    <span>{{{page}}}/{{{pagenum}}}</span>
+  </div>
+  <div class="col">
+    <button type="button" class="btn btn-primary" id="pageAfter" >下一页</button>
+  </div>
+</div>
+
+<script> var page=parseInt('{{page}}'); var pagenum=parseInt('{{pagenum}}'); </script>
+<script type="text/javascript">
+$(function() {
+  $('#search').find('button').click(function() {
+    var query = $('#search').find('input').val();
+    console.log('query', query);
+    var data = {"query":query};
+    $.ajax({
+      url: '/admin-eth-game/users/1',
+      type: 'post',
+      data: data,
+      success: function(data, status) {
+        if(status == 'success') {
+          $("#tab tr:not(:first)").empty();
+          for (var i=0; i<data.length; i++) {
+            $("#tab").append("<tr><td>"+data[i].username+"</td><td>"+data[i].email+"</td><td>"+data[i].publickey+"</td></tr>");
+          }
+        }
+      },
+      error: function(data, status) {
+        if(status == 'error') {
+          console.log(status);
+        }
+      }
+    });
+  });
+  $('#pageBefore').click(function() {
+    var before = page - 1;
+    location.href = before.toString();
+  });
+  $('#pageAfter').click(function() {
+    var after = page + 1;
+    location.href = after.toString();
+  });
+
+  $(window).load(function() {
+    if (page <= 1) {
+      $('#pageBefore').attr("disabled", "true");
+    }
+    if (page >= pagenum) {
+      $('#pageAfter').attr("disabled", "true");
+    }
+  });
+});
+</script>

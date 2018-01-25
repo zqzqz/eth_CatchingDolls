@@ -28,7 +28,7 @@ var abi = [
       "outputs": [
         {
           "name": "",
-          "type": "uint256[]"
+          "type": "uint256[5]"
         }
       ],
       "payable": false,
@@ -127,10 +127,6 @@ var abi = [
         {
           "name": "randomAddress",
           "type": "address"
-        },
-        {
-          "name": "storeAddress",
-          "type": "address"
         }
       ],
       "payable": false,
@@ -186,7 +182,7 @@ var abi = [
   ];
 
 var TinyGame = event_web3.eth.contract(abi);
-var TinyGame = TinyGame.at("0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f");
+var TinyGame = TinyGame.at("0xf25186b5081ff5ce73482ad761db0eb0d25abfbf");
 
 /*
  * bug: event_block = 0 rather than current top block.

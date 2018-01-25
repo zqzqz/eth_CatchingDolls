@@ -25,7 +25,7 @@
       <input type="text" id="loadBalance" placeholder="以eth为单位(1 eth = 10^18 wei)"></input>
     </div>
     <div class="col-md-3">
-      <button type="button" id="loadbtn" onclick="Admin.loadBalance()">充值</button>
+      <button type="button" class="btn btn-primary" id="loadbtn" onclick="Admin.loadBalance()">充值</button>
     </div>
   </div>
   <div class="row">
@@ -36,7 +36,7 @@
       <input type="text" id="fetchBalance" placeholder="以eth为单位(1 eth = 10^18 wei)"></input>
     </div>
     <div class="col-md-3">
-      <button type="button" id="fetchbtn" onclick="Admin.fetchBalance()">提取</button>
+      <button type="button" class="btn btn-primary" id="fetchbtn" onclick="Admin.fetchBalance()">提取</button>
     </div>
   </div>
 </div>
@@ -48,7 +48,10 @@
     <div class="col-md-3">
       <h4>用户数量</h4>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
       <span>{{{usernum}}}</span>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-primary" onclick="window.location.href='admin-eth-game/users/1'">用户名单</button>
     </div>
   </div>

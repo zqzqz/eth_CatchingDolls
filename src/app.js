@@ -18,10 +18,10 @@ global.db = mongoose.connect("mongodb://localhost:27017/nodedb");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-//app.use(multer());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -40,22 +40,48 @@ app.use(session({
 app.use(function(req, res, next) {
   res.locals.user = req.session.user;
   var err = req.session.error;
+  var suc = req.session.success;
   delete req.session.error;
   res.locals.message = "";
   if (err) {
     res.locals.message = '<div class="alert alert-danger" style="margin-bottm;20px;color:red;">'+err+'</div>';
   }
+  else if (suc) {
+     res.locals.message = '<div class="alert alert-success" style="margin-bottm;20px;color:green;">'+suc+'</div>'; 
+  }
   next();
 });
 
+
+// basic auth
+var checkLogin = function(req, res, next) {
+  var url = req.originalUrl;
+  if (! req.session.user && url != "/login" && url != "/register") {
+    req.session.error = "请先登录";
+    return res.redirect("/login");
+  }
+  else next();
+}
+
+var checkAdmin = function(req, res, next) {
+  if (req.orginalUrl == "/login" || req.originalUrl == "/register") next();
+  if (! req.session.user) {
+    req.session.error = "请使用管理员账号登录";
+    return res.redirect("/login");
+  }
+  else if (req.session.user.superuser === false) {
+    req.session.error = "请使用管理员账号登录";
+    return res.redirect("/login");
+  }
+  else next();
+}
+
 // route config
+
+app.use('/', checkLogin);
 app.use('/', index);
-app.use('/transfer', index);
-app.use('/login', index);
+app.use('/admin-eth-game', checkAdmin);
 app.use('/admin-eth-game', admin);
-app.use('/users', admin);
-app.use('/register', index);
-app.use('/checkAccount', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
