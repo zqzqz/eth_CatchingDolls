@@ -1,24 +1,12 @@
 body {
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
   font-family: "Open Sans", sans-serif;
 }
 
 label {
   display: inline-block;
   width: 100px;
-}
-
-input {
-  width: 500px;
-  padding: 5px;
-  font-size: 16px;
-}
-
-button {
-  font-size: 16px;
-  padding: 5px;
 }
 
 h1, h2 {
@@ -55,3 +43,11 @@ h3 {
 .hint {
   color: #666;
 }
+
+#nav {
+  width:500px;
+  position: fixed;
+  top: 10px;
+  right: 50px;
+}
+

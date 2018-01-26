@@ -55,7 +55,7 @@ router.route('/register').get( function(req, res, next) {
   var username_pattern = /^[a-zA-Z0-9_\-]{5,20}$/;
   var password_pattern = /^[a-zA-Z0-9_\-!@#$%^&*?]{6,20}$/;
   var email_pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  var publickey_pattern = /^0x[0-9a-fA-F]{40}$/;
+  var publickey_pattern = /^0x[0-9a-f]{40}$/;
   if (! username_pattern.test(_username)) {
     req.session.error = "用户名错误（5-20位数字字母以及_-）";
     res.sendStatus(404);

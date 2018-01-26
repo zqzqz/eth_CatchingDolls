@@ -6,20 +6,28 @@
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/javascripts/jquery.min.js"></script>
-	<script src="/javascripts/bootstrap.min.js"></script>
+  <!-- <script src="/javascripts/bootstrap.min.js"></script> -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="/javascripts/web3.min.js"></script>
-	<script src="/javascripts/truffle-contract.js"></script>
-  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+  <script src="/javascripts/truffle-contract.js"></script>
+
   <link href="/stylesheets/app.css" rel="stylesheet">
+  <!-- <link href="/stylesheets/bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
   {{{message}}}
-  <div id="user">
-    <span>hello </span>
-    <span class="username">{{{user.username}}}</span>
-    <a href="/logout">logout</a>
-  </div>
-  </br>
+  <ul id="nav" class="nav nav-pills">
+    <li class="disabled"><a href="/">Hello</a></li>
+    {{#if user}}
+    <li class="disabled"><a href="/account/{{user.username}}" >{{user.username}}</a></li>
+      <li class="active"><a href="/">主页</a></li>
+      <li class="active"><a href="/logout">登出</a></li>
+    {{else}}
+      <li class="active"><a href="/login">登录</a></li>
+      <li class="active"><a href="/register">注册</a></li>
+    {{/if}}
+  </ul>
 	{{{body}}}
 <footer class="footer navbar-fixed-bottom">
   <div class="container">
