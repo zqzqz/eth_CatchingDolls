@@ -182,7 +182,7 @@ var abi = [
   ];
 
 var TinyGame = event_web3.eth.contract(abi);
-var TinyGame = TinyGame.at("0xf25186b5081ff5ce73482ad761db0eb0d25abfbf");
+var TinyGame = TinyGame.at("0x224F629A462ECDb4ECD35Fce983826a38695c64a");
 
 /*
  * bug: event_block = 0 rather than current top block.

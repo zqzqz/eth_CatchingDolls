@@ -20,7 +20,7 @@
   <ul id="nav" class="nav nav-pills">
     <li class="disabled"><a href="/">Hello</a></li>
     {{#if user}}
-    <li class="disabled"><a href="/account/{{user.username}}" >{{user.username}}</a></li>
+    <li class="disabled"><a href="/account/{{user.username}}" id="username" >{{user.username}}</a></li>
       <li class="active"><a href="/">主页</a></li>
       <li class="active"><a href="/logout">登出</a></li>
     {{else}}

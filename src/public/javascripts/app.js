@@ -3,7 +3,7 @@ App = {
   contracts: {},
   accounts: null,
   account: null,
-  block: null,
+  address: "0x224F629A462ECDb4ECD35Fce983826a38695c64a",
 
   /*
    * entry function: init App.account, contract and event
@@ -17,6 +17,7 @@ App = {
     if (typeof web3 !== 'undefined') {
       console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 App.contracts.TinyGame, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-gamemask")
       // Use Mist/MetaMask's provider
+      console.log(web3.currentProvider);
       web3 = new Web3(web3.currentProvider);
     } else {
       console.warn("No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-gamemask");
@@ -34,7 +35,7 @@ App = {
       App.contracts.TinyGame = TruffleContract(artifacts);
       // Bootstrap the App.contracts.TinyGame abstraction for Use.
       App.contracts.TinyGame.setProvider(web3.currentProvider);
-
+      console.log(App.contracts.TinyGame);
       web3.eth.getAccounts(function(err, accs) {
         if (err != null) {
           alert("There was an error fetching your accounts.");
@@ -48,7 +49,7 @@ App = {
    
         App.accounts = accs;
         App.account = App.accounts[0];
-        var user = $("#user").find(".username").text();
+        var user = $("#username").text();
         console.log("user",user);
         $.ajax({
           url:'/checkAccount',
@@ -100,7 +101,7 @@ App = {
 
     var game;
     if (App.contract === 'undefined') return false;
-    App.contracts.TinyGame.deployed().then(function(instance) {
+    App.contracts.TinyGame.at(App.address).then(function(instance) {
       game = instance;
       return game.getDollsByAddress.call(App.account);
     }).then(function(value) {
@@ -121,9 +122,9 @@ App = {
    */
   catch: function() {
     var game;
-    App.contracts.TinyGame.deployed().then(function(instance) {
+    App.contracts.TinyGame.at(App.address).then(function(instance) {
       game = instance;
-      game.payToCatch.sendTransaction({from: App.account, value: web3.toWei(0.01, "ether")});
+      game.payToCatch.sendTransaction({from: App.account, value: web3.toWei(0.003, "ether")});
     }).then(function(value) {
       console.log("catch transaction sent");
     }).catch(function(e) {
@@ -139,7 +140,7 @@ App = {
 
     var game;
     // watch events 
-    App.contracts.TinyGame.deployed().then(function(instance) {
+    App.contracts.TinyGame.at(App.address).then(function(instance) {
       game = instance;
       return game.submit.sendTransaction({from: App.account});
     }).then(function(value) {
@@ -175,7 +176,7 @@ App = {
     var game;
     var items = document.getElementById("transferItems").value.split(' ');
     var recipient = document.getElementById("recipient").value;
-    App.contracts.TinyGame.deployed().then(function(instance) {
+    App.contracts.TinyGame.at(App.address).then(function(instance) {
       game = instance;
       return game.transferDoll.sendTransaction(recipient, items, {from: App.account});
     }).then(function(value) {

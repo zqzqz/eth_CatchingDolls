@@ -1,18 +1,16 @@
 pragma solidity ^0.4.17;
-import "eth-random/contracts/Random.sol";
 
 contract TinyGame {
 	mapping(address => uint[5]) ownership;
 	address owner;
-	Random random;
-
+  uint seed = 0;
+  //Random random = Random(0x345ca3e014aaf5dca488057592ee47305d9b3e10);
 	event PayOnce(address payer, uint dollID);
 	event SubmitSuccess(address winner);
 	event Transfer(address sender, address recipient);
 
-	function TinyGame(address randomAddress) public {
+	function TinyGame() public {
 		owner = msg.sender;
-		random = Random(randomAddress);
 	}
 
 	function payToCatch() public payable {
@@ -23,19 +21,17 @@ contract TinyGame {
 	}
 
 	function catchDoll(address _user) internal returns (uint) {
-		uint dollID = 0;
+		uint dollID = 5;
 		//generate a random number in scale 100
-		uint randint = random.random(1000);
+		seed = uint(sha256(sha256(block.blockhash(block.number), seed), now));
+		uint randint = seed % 100;
 		//get doll ID according to randint
-		//uint randint=1;
-		if (randint < 300) dollID = 0;
-		else if (randint < 600) dollID = 1;
-		else if (randint < 790) dollID = 2;
-		else if (randint < 980) dollID = 3;
+		if (randint < 30) dollID = 0;
+		else if (randint < 60) dollID = 1;
+		else if (randint < 79) dollID = 2;
+		else if (randint < 98) dollID = 3;
 		else dollID = 4;
 		//write changes to map ownership
-		if (dollID<0 || dollID>4) return 5;
-		//initAddress(_user);
 		ownership[_user][dollID]++;
 		return dollID;
 	}
@@ -54,7 +50,7 @@ contract TinyGame {
 	}
 
 
-	function transferDoll(address _recipient, uint[] dollList) public returns (bool) {
+	function transferDoll(address _recipient, uint[] dollList) public {
 		require(dollList.length == 5); //dollList must have 5 items
 		// check sender has enough dolls
 		for (uint dollID=0; dollID<5; dollID++) {
@@ -68,7 +64,7 @@ contract TinyGame {
 		Transfer(msg.sender, _recipient); //event
 	}
 
-	function getDollsByAddress(address _user) public returns (uint[5]) {
+	function getDollsByAddress(address _user) public view returns (uint[5]) {
 		return ownership[_user];
 	}
 	
@@ -77,8 +73,7 @@ contract TinyGame {
 		msg.sender.transfer(ammount);
 	}
 
-	function showBalance() public returns (uint) {
-		require(msg.sender == owner);
+	function showBalance() public view returns (uint) {
 		return this.balance;
 	}
 
@@ -86,11 +81,6 @@ contract TinyGame {
 		require(msg.sender == owner);
 	}
 
-	function kill() {
-		if (owner == msg.sender) {
-			selfdestruct(owner);
-		}
-	}
 }
 
 

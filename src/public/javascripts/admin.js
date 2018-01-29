@@ -3,7 +3,7 @@ Admin = {
   contracts: {},
   accounts: null,
   account: null,
-
+  address: "0x224F629A462ECDb4ECD35Fce983826a38695c64a",
   /*
    * entry function: init Admin.account, contract and event
    */
@@ -68,7 +68,7 @@ Admin = {
 
   loadPage: function() {
     var game;
-    Admin.contracts.TinyGame.deployed().then(function(instance) {
+    Admin.contracts.TinyGame.at(Admin.address).then(function(instance) {
       game = instance;
       return game.showBalance.call();
     }).then(function(value) {
@@ -81,7 +81,7 @@ Admin = {
 
   loadBalance: function() {
     var game;
-    Admin.contracts.TinyGame.deployed().then(function(instance) {
+    Admin.contracts.TinyGame.at(Admin.address).then(function(instance) {
       game = instance;
       var ammount = $("#loadBalance").val();
       console.log("load", ammount);
@@ -95,7 +95,7 @@ Admin = {
 
   fetchBalance: function() {
     var game;
-    Admin.contracts.TinyGame.deployed().then(function(instance) {
+    Admin.contracts.TinyGame.at(Admin.address).then(function(instance) {
       game = instance;
       var ammount = $("#fetchBalance").val();
       console.log("fetch", ammount);
