@@ -115,6 +115,7 @@ router.get("/logout", function(req, res) {
   res.redirect("/login");
 });
 
+// check whether the current account is included in user schema in database
 router.post("/checkAccount", function(req, res, next) {
   var User = global.dbHandler.getModel('user');
   var _username = req.body.username;
@@ -147,6 +148,27 @@ router.post("/checkAccount", function(req, res, next) {
       }
     });
   }
-})
+});
+
+router.route("/account/:username").get(function(req, res, next) {
+  var _username = req.params.username;
+  var User = global.dbHandler.getModel('user');
+  User.findOne({username:_username}, function(err, doc) {
+    if(err) {
+      console.log(err);
+      res.sendStatus(404);
+    }
+    else if (!doc) {
+      res.sendStatus(404);
+    }
+    else {
+      res.render("account", {username:_username, email:doc.email, publickey:doc.publickey});
+    }
+  });
+}).post(function(req, res, next) {
+  var _email = req.body.email;
+  var _publickey = req.body.publickey;
+  var User = global.dbHandler.getModel('user');
+});
 
 module.exports = router;

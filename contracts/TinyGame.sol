@@ -16,7 +16,7 @@ contract TinyGame {
 	}
 
 	function payToCatch() public payable {
-		require(msg.value==0.01 ether);
+		require(msg.value==0.003 ether);
 		uint re = catchDoll(msg.sender);
 		require(re != 5);
 		PayOnce(msg.sender, re); //event
@@ -25,13 +25,13 @@ contract TinyGame {
 	function catchDoll(address _user) internal returns (uint) {
 		uint dollID = 0;
 		//generate a random number in scale 100
-		uint randint = random.random(100);
+		uint randint = random.random(1000);
 		//get doll ID according to randint
 		//uint randint=1;
-		if (randint < 20) dollID = 0;
-		else if (randint < 40) dollID = 1;
-		else if (randint < 60) dollID = 2;
-		else if (randint < 80) dollID = 3;
+		if (randint < 300) dollID = 0;
+		else if (randint < 600) dollID = 1;
+		else if (randint < 790) dollID = 2;
+		else if (randint < 980) dollID = 3;
 		else dollID = 4;
 		//write changes to map ownership
 		if (dollID<0 || dollID>4) return 5;
