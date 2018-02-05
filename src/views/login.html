@@ -56,12 +56,12 @@ $(function(){
             success: function(data,status){ 
               if(status == 'success'){ 
                     console.log("login");
-                    location.href = '';
+                    location.href = '/';
                 }
             },
             error: function(data,status){ 
                 if(status == 'error'){ 
-                    location.href = 'login';
+                    location.href = '/login';
                 }
             }
         });

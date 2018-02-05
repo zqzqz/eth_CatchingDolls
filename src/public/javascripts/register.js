@@ -104,27 +104,20 @@ $(function(){
       web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"));
     }
     
-    // init contract
-    $.getJSON('/jsons/TinyGame.json', function(data) {
-      artifacts = data;
-      contracts.TinyGame = TruffleContract(artifacts);
-      // Bootstrap the App.contracts.TinyGame abstraction for Use.
-      contracts.TinyGame.setProvider(web3.currentProvider);
 
-      web3.eth.getAccounts(function(err, accs) {
-        if (err != null) {
-          console.log("There was an error fetching your accounts.");
-          return;
-        }
+    web3.eth.getAccounts(function(err, accs) {
+      if (err != null) {
+        console.log("There was an error fetching your accounts.");
+        return;
+      }
 
-        if (accs.length == 0) {
-          console.log("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-          return;
-        }
+      if (accs.length == 0) {
+        console.log("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+        return;
+      }
 
-        account = accs[0];
-        $('#publickey').val(account);
-      });
+      account = accs[0];
+      $('#publickey').val(account);
     });
   });
 

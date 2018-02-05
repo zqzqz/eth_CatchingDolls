@@ -8,14 +8,28 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-/* GET transfer page. */
-router.get('/transfer', function(req, res, next) {
-  res.render('transfer');
+/* Help page */
+router.get('/help', function(req, res, next) {
+  res.render('help');
 });
 
+/* page rendered when metamask is undetected */
+router.get('/require', function(req, res, next) {
+  res.render('require');
+});
 
+/* GET transfer page. */
+router.get('/transfer', function(req, res, next) {
+  res.render('transfer', {recipient: req.query.recipient});
+});
+
+/* login */
 router.route('/login').get( function(req, res, next) {
-  res.render('login');
+  if (req.session.user) {
+    res.redirect("/");
+  } else {
+    res.render('login');
+  }
 }).post( function(req, res, next) {
   var User = global.dbHandler.getModel('user');
   var _username = req.body.username;
@@ -44,6 +58,7 @@ router.route('/login').get( function(req, res, next) {
 });
 
 
+/* register */
 router.route('/register').get( function(req, res, next) {
   res.render('register');
 }).post( function(req, res, next) {
@@ -51,7 +66,7 @@ router.route('/register').get( function(req, res, next) {
   var _username = req.body.username;
   var _password = req.body.password;
   var _email = req.body.email;
-  var _publickey = req.body.publickey;
+  var _publickey = req.body.publickey.toLowerCase();
   var username_pattern = /^[a-zA-Z0-9_\-]{5,20}$/;
   var password_pattern = /^[a-zA-Z0-9_\-!@#$%^&*?]{6,20}$/;
   var email_pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -109,17 +124,19 @@ router.route('/register').get( function(req, res, next) {
 });
 
 
+/* logout */
 router.get("/logout", function(req, res) {
   req.session.user = null;
   req.session.error = "";
   res.redirect("/login");
 });
 
-// check whether the current account is included in user schema in database
+
+/* check whether the current account is included in user schema in database */
 router.post("/checkAccount", function(req, res, next) {
   var User = global.dbHandler.getModel('user');
   var _username = req.body.username;
-  var _publickey = req.body.publickey;
+  var _publickey = req.body.publickey.toLowerCase();
   if (_username != "") {
     User.findOne({username:_username, publickey:_publickey}, function(err, doc) {
       if (err) {
@@ -150,6 +167,7 @@ router.post("/checkAccount", function(req, res, next) {
   }
 });
 
+/* page for account info */
 router.route("/account/:username").get(function(req, res, next) {
   var _username = req.params.username;
   var User = global.dbHandler.getModel('user');
@@ -162,13 +180,31 @@ router.route("/account/:username").get(function(req, res, next) {
       res.sendStatus(404);
     }
     else {
-      res.render("account", {username:_username, email:doc.email, publickey:doc.publickey});
+      var localFlag = null;
+      // employ localFlag when user visit his own account page
+      if (req.session.user.username == _username) localFlag = 1;
+      res.render("account", {local:localFlag, username:_username, email:doc.email, publickey:doc.publickey});
     }
   });
 }).post(function(req, res, next) {
+  var _username = req.body.username;
+  if (req.session.user.username != _username) {
+    res.sendStatus(404);
+  }
   var _email = req.body.email;
-  var _publickey = req.body.publickey;
+  var _publickey = req.body.publickey.toLowerCase();
   var User = global.dbHandler.getModel('user');
+  User.update({username:_username}, {email:_email, publickey:_publickey}, function(err, doc) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(404);
+    } else if (!doc) {
+      res.sendStatus(404);
+    } else {
+      req.session.success = "修改成功";
+      res.sendStatus(200);
+    }
+  });
 });
 
 module.exports = router;

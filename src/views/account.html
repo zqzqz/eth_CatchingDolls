@@ -1,13 +1,86 @@
 <div class="container">
   <div class="row">
+    <h1>搜索朋友</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <input type="text" id="searchName" placeholder="他/她的用户名"></input>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-info" id="search">搜索</button>
+    </div>
+  </div>
+<div>
+
+
+<div class="container">
+  <div class="row">
     <h1>用户信息</h1>
   </div>
   <div class="row">
     <div class="col-md-3"><label>用户名</label></div>
     <div class="col-md-6">{{username}}</div>
   </div>
-  {{#if user.username == username}}
+  {{#if local}}
   <div class="row">
     <div class="col-md-3"><label>电子邮箱</label></div>
+    <div class="col-md-6"><input type="text" id="email" name="email" value="{{email}}"></input></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"><label>公钥地址</label></div>
+    <div class="col-md-6"><input type="text" id="publickey" name="publickey" value="{{publickey}}"></input></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 col-md-offset-5">
+      <button type="button" class="btn btn-info" id="submit">修改</button>
+    </div>
+  </div>
+  {{else}}  
+  <div class="row">
+    <div class="col-md-3"><label>电子邮箱</label></div>
+    <div class="col-md-6"><label>{{email}}</label></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"><label>公钥地址</label></div>
+    <div class="col-md-6"><label>{{publickey}}</label></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <button type="button" class="btn btn-info" id="transfer">赠送</button>
+    </div>
+  </div>
+  {{/if}}
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-push-2 col-md-8">
+      <h4 class="text-center">Your Possession</h4>
+      <hr/>
+      <br/>
+    </div>
+  </div>
+
+  <div id="dollsRow" class="row">
+        <!-- DOLLS LOAD HERE -->
   </div>
 </div>
+
+  <div id="dollTemplate" style="display: none;">
+      <div class="col-md-2 col-sm-2">
+        <div class="panel panel-default panel-doll">
+          <div class="panel-heading">
+            <h3 class="panel-title">XX DOG</h3>
+          </div>
+          <div class="panel-body">
+            <img alt="img" height=80 width=80 src="images/dog0.jpeg" >
+            <br/><br/>
+            <span class="doll-num">0</span></br></br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">var account = "{{publickey}}"; var username = "{{user.username}}"</script>
+<script type="text/javascript" src="/javascripts/account.js"></script>

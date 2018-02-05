@@ -42,6 +42,7 @@ app.use(function(req, res, next) {
   var err = req.session.error;
   var suc = req.session.success;
   delete req.session.error;
+  delete req.session.success;
   res.locals.message = "";
   if (err) {
     res.locals.message = '<div class="alert alert-danger" style="margin-bottm;20px;color:red;">'+err+'</div>';
@@ -56,7 +57,7 @@ app.use(function(req, res, next) {
 // basic auth
 var checkLogin = function(req, res, next) {
   var url = req.originalUrl;
-  if (! req.session.user && url != "/login" && url != "/register") {
+  if (! req.session.user && url != "/login" && url != "/register" && url != "/require") {
     req.session.error = "请先登录";
     return res.redirect("/login");
   }
@@ -64,7 +65,8 @@ var checkLogin = function(req, res, next) {
 }
 
 var checkAdmin = function(req, res, next) {
-  if (req.orginalUrl == "/login" || req.originalUrl == "/register") next();
+  var url = req.originalUrl;
+  if (url == "/help" || url == "/login" || url == "/register" || url == "/require") next();
   if (! req.session.user) {
     req.session.error = "请使用管理员账号登录";
     return res.redirect("/login");

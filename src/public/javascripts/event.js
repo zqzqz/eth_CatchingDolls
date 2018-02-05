@@ -1,4 +1,6 @@
-var event_web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"));
+var event_web3 = null;
+if (web3 !== undefined) event_web3 = new Web3(web3.currentProvider);
+else event_web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"));
 var event_block = 0;
 
 /*
@@ -182,13 +184,12 @@ var abi = [
   ];
 
 var TinyGame = event_web3.eth.contract(abi);
-var TinyGame = TinyGame.at("0x224F629A462ECDb4ECD35Fce983826a38695c64a");
-
+var TinyGame = TinyGame.at("0xCbF43D8b7fC38FEbe469EeA5A463322a3711320e");
 /*
  * bug: event_block = 0 rather than current top block.
  * Parse through all blockchain is too costly.
  */
-TinyGame.PayOnce({'payer': App.account}, {fromBlock: event_block+1, toBlock: 'latest'})
+TinyGame.PayOnce({'payer': App.account})
 	.watch(function(error, result) {
 		if (!error && result.blockNumber > event_block) {
 			console.log('payer:', result['args']['payer']);

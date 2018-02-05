@@ -3,7 +3,7 @@ Admin = {
   contracts: {},
   accounts: null,
   account: null,
-  address: "0x224F629A462ECDb4ECD35Fce983826a38695c64a",
+  address: globalAddress,
   /*
    * entry function: init Admin.account, contract and event
    */
@@ -47,20 +47,6 @@ Admin = {
    
         Admin.accounts = accs;
         Admin.account = Admin.accounts[0];
-        var user = $("#user").find(".username").text();
-        console.log("user",user);
-        $.ajax({
-          url:'/checkAccount',
-          type:'post',
-          data:{"username":user, "publickey": Admin.account},
-          success: function(data, status) {
-            console.log("account correct");
-          },
-          error: function(data, status) {
-            console.log("account wrong");
-            alert("当前以太坊账户与您注册的公钥地址不符，强烈建议更换正确的公钥地址");
-          }
-        });
       }); 
       return Admin.loadPage();
     });  

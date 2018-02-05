@@ -43,8 +43,6 @@ router.route('/users/:page').get( function(req, res, next) {
         }
         else {
           var pagenum = parseInt(count/pageSize) + 1;
-          console.log(data);
-          console.log(pagenum);
           res.render("users", {"data":data, "pagenum":pagenum, "page":currentPage});
         }
       });
