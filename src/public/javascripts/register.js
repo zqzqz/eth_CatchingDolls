@@ -78,12 +78,12 @@ $(function(){
       data: data,
       success: function(data,status){ 
           if(status == 'success'){ 
-              location.href = 'login';
+              location.href = '/activate/?username='+username;
           }
       },
       error: function(data,err){
           console.log(err);
-          location.href = 'register';
+          location.href = '/register';
       }
     });
   });

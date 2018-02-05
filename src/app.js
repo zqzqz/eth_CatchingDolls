@@ -57,11 +57,13 @@ app.use(function(req, res, next) {
 // basic auth
 var checkLogin = function(req, res, next) {
   var url = req.originalUrl;
-  if (! req.session.user && url != "/login" && url != "/register" && url != "/require") {
+  if (!req.session.user  && url != "/login" && url != "/register" && url != "/require") {
     req.session.error = "请先登录";
     return res.redirect("/login");
-  }
-  else next();
+  } else if (url.slice(0,9)!='/activate'  && req.session.user && req.session.user.activate === false) {
+    req.session.error = "账号未激活，请验证邮箱";
+    return res.redirect("/activate");
+  } else next();
 }
 
 var checkAdmin = function(req, res, next) {

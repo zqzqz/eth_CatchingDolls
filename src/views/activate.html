@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>验证邮箱</h1>
+  <p class='text-justify'>邮件已发送到您的邮箱{{user.email}}</p>
+  <p class='text-justify'>请尽快登录邮箱点击验证链接</p>
+  <button type="button" id="resend">未收到邮件？点击重发</button>
+</div>
+
+<script type="text/javascript">
+$(function(){
+  $('#resend').click(function(){
+    $.ajax({
+      url: '/activate',
+      type: 'post'
+    });
+  });
+});
+</script>

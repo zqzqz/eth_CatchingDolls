@@ -5,6 +5,7 @@ module.exports = {
     password:{type:String, required:true},
     email:{type:String, required:true},
     publickey:{type:String, required:true},
-    superuser:{type:Boolean, required:true}
+    superuser:{type:Boolean, required:true},
+    activate:{type:Boolean, required:true}
   }
 };

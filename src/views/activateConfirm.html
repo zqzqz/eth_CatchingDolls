@@ -1,0 +1,21 @@
+<div class="container">
+  {{#if state}}
+  <h1>邮箱验证成功！</h1>
+  <p>将在<span id="counter">5</span>秒钟后跳转首页</p>
+  <script type="text/javascript">
+    var i=5;
+    var interval = setInterval("count()", 1000);
+    function count() {
+      if (i == 0) {
+        location.href = "/";
+        clearInterval(interval);
+      }
+      $('#counter').text(i);
+      i--;
+    }
+  </script>
+  {{else}}
+  <h1>出错了！</h1>
+  <p>邮箱激活出错，请返回重试或联系管理员。</p>
+  {{/if}}
+</div>
