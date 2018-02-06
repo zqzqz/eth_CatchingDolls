@@ -1,0 +1,89 @@
+<div class="container">
+  <form id="chpassForm" class="col-md-6 col-md-offset-3" role="form" method="post" action="">
+    <h1>设置新密码</h1>
+    <p class='text-justify'><span id="message">{{mes}}</span></p>
+    <div class="form-group">
+      <div class="input-group">
+        <label>新密码</label>
+        <input type="text" class="form-control" id="password" name="password"
+        placeholder="请输入密码" required></input>
+      </div>
+    </div> 
+    <div class="form-group">
+      <div class="input-group">
+        <label>确认密码</label>
+        <input type="text" class="form-control" id="password1" name="password1"
+        placeholder="请再次输入密码" required></input>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" id="chpass" class="btn btn-info">确认</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascripts/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$().ready(function(){
+  $.validator.addMethod("regex", function(value, element, regexpr) {
+    return regexpr.test(value);
+  }, "格式错误");
+  $('#chpassForm').validate({
+    errorPlacement: function(error, element) {
+      $(element).closest(".form-group").append(error);
+    },
+    rules: {
+      password: {
+        required: true,
+        minlength: 5,
+        maxlength: 20,
+        regex: /^[a-zA-Z0-9_\-]{5,20}$/
+      },
+      password1: {
+        required: true,
+        equalTo: "#password"
+      }
+    },
+    messages: {
+      password: {
+        required: "请填写新密码",
+        minlength: "密码不能少于6位",
+        maxlength: "密码不能多于20位",
+        regex: "密码只能包含数字、字母以及特殊字符(-_!@#$%^&*?)"
+      },
+      password1: {
+        required: "请再次确认密码",
+        equalTo: "两次输入密码不同"
+      }
+    },
+    submitHandler: function(form) {
+      var _password = $('#password').val();
+      $.ajax({
+        url: window.location.href,
+        type: 'post',
+        data: {"password":_password},
+        success: function(data, status) {
+          if (status == 'success') {
+            $('#message').text(data.message);
+            if (data.success == true){
+              location.href="/password/done";
+            }
+          }
+        },
+        error: function(data, status) {
+          if (status == 'error') {
+            console.log(data);
+            $('#message').text("出错了！请重试或联系管理员");
+          }
+        }
+      });
+    },
+    invalidHandler: function(form, validator) {return false;}
+  });
+});
+</script>
+<style>
+.error{
+  color:red;
+}
+</style>

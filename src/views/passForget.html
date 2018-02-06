@@ -1,0 +1,48 @@
+<div class="container">
+  <form class="col-md-6 col-md-offset-3" role="form" method="post" onsubmit="return false">
+    <h1>找回密码</h1>
+    <p class='text-justify'><span id="message">{{mes}}</span></p>
+    <div class="form-group">
+      <div class="input-group">
+        <label>用户名</label>
+        <input type="text" class="form-control" id="username" name="username"
+        placeholder="请输入用户名" required></input>
+      </div>
+    </div> 
+    <div class="form-group">
+      <div class="input-group">
+        <label>邮箱</label>
+        <input type="email" class="form-control" id="email" name="email"
+        placeholder="请输入邮箱地址" required></input>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" id="chpass" class="btn btn-info">发送邮件</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+  $('#chpass').click(function() {
+    $('#message').text("邮件发送中");
+    var _email = $('#email').val();
+    var _username = $('#username').val();
+    $.ajax({
+      url: '/password/forget',
+      type: 'post',
+      data: {email:_email, username:_username},
+      success: function(data, status) {
+        if (status == 'success') {
+          $('#message').text(data.message);
+        }
+      },
+      error: function(data, status) {
+        if (status == 'error') {
+          console.log("something wrong when post activate");
+        }
+      }
+    });
+  });
+});
+</script>

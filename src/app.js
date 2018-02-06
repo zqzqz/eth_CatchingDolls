@@ -6,10 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var admin = require('./routes/admin');
+var activate = require('./routes/activate');
+var password = require('./routes/password');
 var hbs = require('hbs');
 var app = express();
 var mongoose = require('mongoose');
 var session = require('express-session');
+var token = require('./routes/token.js');
 
 global.dbHandler = require('./database/dbHandler.js');
 global.db = mongoose.connect("mongodb://localhost:27017/nodedb");
@@ -57,18 +60,19 @@ app.use(function(req, res, next) {
 // basic auth
 var checkLogin = function(req, res, next) {
   var url = req.originalUrl;
-  if (!req.session.user  && url != "/login" && url != "/register" && url != "/require") {
-    req.session.error = "请先登录";
-    return res.redirect("/login");
-  } else if (url.slice(0,9)!='/activate'  && req.session.user && req.session.user.activate === false) {
-    req.session.error = "账号未激活，请验证邮箱";
-    return res.redirect("/activate");
+  if (url != "/login" && url != "/register" && url != "/require" && url.slice(0,9)!="/password" && url != "/help") {
+    if (! req.session.user) {
+      return res.redirect("/login");
+    } else if (url.slice(0,9)!='/activate' && req.session.user.activate === false) {
+      return res.redirect("/activate");
+    } else next();
   } else next();
 }
 
+// admin auth
 var checkAdmin = function(req, res, next) {
   var url = req.originalUrl;
-  if (url == "/help" || url == "/login" || url == "/register" || url == "/require") next();
+  if (url == "/help" || url == "/login" || url == "/register" || url == "/require" || url.slice(0,9)=="/password") next();
   if (! req.session.user) {
     req.session.error = "请使用管理员账号登录";
     return res.redirect("/login");
@@ -82,8 +86,10 @@ var checkAdmin = function(req, res, next) {
 
 // route config
 
+app.use('/password', password);
 app.use('/', checkLogin);
 app.use('/', index);
+app.use('/activate', checkLogin, activate);
 app.use('/admin-eth-game', checkAdmin);
 app.use('/admin-eth-game', admin);
 

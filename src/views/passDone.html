@@ -1,14 +1,14 @@
 <div class="container">
   <div class="col-md-6 col-md-offset-3">
     {{#if success}}
-    <h1>邮箱验证成功！</h1>
-    <p>将在<span id="counter">5</span>秒钟后跳转首页</p>
+    <h1>密码修改成功！</h1>
+    <p>将在<span id="counter">5</span>秒钟后跳转到登录界面</p>
     <script type="text/javascript">
       var i=5;
       var interval = setInterval("count()", 1000);
       function count() {
         if (i == 0) {
-          location.href = "/";
+          location.href = "/login";
           clearInterval(interval);
         }
         $('#counter').text(i);
@@ -17,7 +17,7 @@
     </script>
     {{else}}
     <h1>出错了！</h1>
-    <p>邮箱激活出错，请返回重试或联系管理员。</p>
+    <p>密码修改出错，请返回重试或联系管理员。</p>
     <p>{{mes}}</p>
     {{/if}}
   </div>

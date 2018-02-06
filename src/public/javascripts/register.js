@@ -60,34 +60,34 @@ $(function(){
         required: "请填写以太坊(ethereum)公钥地址",
         regex: "公钥地址格式错误，请统一使用小写字母并检查位数"
       }
-    }
+    },
+    submitHandler: function(form) {
+      var username = $("#username").val();
+      var password = $("#password").val();
+      var email = $("#email").val();
+      var publickey = $("#publickey").val();
+      var data = {"username":username,"password":password, "email":email, "publickey":publickey};
+      $.ajax({ 
+        url: '/register',
+        type: 'post',
+        data: data,
+        success: function(data,status){ 
+            if(status == 'success'){ 
+                location.href = '/activate/?username='+username;
+            }
+        },
+        error: function(data,err){
+            console.log(err);
+            location.href = '/register';
+        }
+      });
+    },
+    invalidHandler: function(form, validator) {return false;},
   });
   $("#login1").click(function(){ 
       location.href = 'login';
   });
-  $("#register1").click(function(){ 
-
-    var username = $("#username").val();
-    var password = $("#password").val();
-    var email = $("#email").val();
-    var publickey = $("#publickey").val();
-    var data = {"username":username,"password":password, "email":email, "publickey":publickey};
-    $.ajax({ 
-      url: '/register',
-      type: 'post',
-      data: data,
-      success: function(data,status){ 
-          if(status == 'success'){ 
-              location.href = '/activate/?username='+username;
-          }
-      },
-      error: function(data,err){
-          console.log(err);
-          location.href = '/register';
-      }
-    });
-  });
-
+  
   // fill the publickey form automatically if an account detected
   $(window).load(function() {
     var contracts = {};

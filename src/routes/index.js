@@ -2,17 +2,6 @@ var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
 var session = require('express-session');
-var nodemailer = require('nodemailer');
-
-// mail config
-var mailTransport = nodemailer.createTransport({
-  host: 'smtp.qq.com',
-  secureConnection: false,
-  auth: {
-    user: '443291890@qq.com',
-    pass: 'rukvgwdfvtnfbibc'
-  },
-});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -213,60 +202,11 @@ router.route("/account/:username").get(function(req, res, next) {
       res.sendStatus(404);
     } else {
       req.session.success = "修改成功";
+      req.session.user = doc;
       res.sendStatus(200);
     }
   });
 });
 
-
-/* email validation confirmed */
-router.route("/activate/confirm/:username").get(function(req, res, next) {
-  var User = global.dbHandler.getModel('user');
-  _username = req.params.username;
-  console.log(_username);
-  User.update({username:_username}, {activate:true}, function(err, doc) {
-    if (err) {
-      console.log(err);
-      res.render('activateConfirm', {state:false});
-    } else {
-      res.render('activateConfirm', {state:true});
-    }
-  });
-});
-
-
-/* email validation info */
-router.route("/activate").post(function(req, res, next) {
-  res.sendStatus(200);
-}).get(function(req, res, next) {
-  res.render('activate');
-}).all(function(req, res, next) {
-  // the user has validate the email. No use to send email
-  if (req.session.user.activate == true) res.sendStatus(404);
-  // send email
-  var _username = req.session.user.username;
-  var _email = req.session.user.email;
-  var messgae = null;
-  // edit hostname when a public domain name is ready
-  var hostname = "127.0.0.1:3000"
-
-  var options = {
-    from: '有来有趣<443291890@qq.com>',
-    to: _username+'<'+_email+'>',
-    subject: "来自幸运狗小游戏的邮件",
-    text: "来自幸运狗小游戏的邮件",
-    html: "<h1>您好，"+_username+'!</h2><a href="http://'+hostname+'/activate/confirm/'+_username+'">点击激活账号</a>'
-  };
-
-  mailTransport.sendMail(options, function(err, msg) {
-    if (err) {
-      console.log(err);
-      req.session.error = "发送邮件失败";
-      res.sendStatus(500);
-    } else {
-      message = msg;
-    }
-  });
-});
 
 module.exports = router;
