@@ -67,7 +67,7 @@ router.route("/forget").get(function(req, res, next) {
   var _username = req.body.username;
   var _email = req.body.email;
   // edit hostname when a public domain name is ready
-  var hostname = "127.0.0.1:3000"
+  var hostname = "47.97.11.87"
 
   var options = {
     from: '有来有趣<443291890@qq.com>',
