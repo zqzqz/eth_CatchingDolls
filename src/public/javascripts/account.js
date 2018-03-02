@@ -43,25 +43,11 @@ Account = {
       
     });  
   },  
-   
   loadPage: function() {
-    // load dolls
-    $.getJSON('/jsons/doll.json', function(data) {
-      var dollsRow = $('#dollsRow');
-      var dollTemplate = $('#dollTemplate');
-      for (var i = 0; i < data.length; i++) {
-        dollTemplate.find('.panel-title').text(data[i].name);
-        dollTemplate.find('img').attr('src', data[i].picture);
-        dollTemplate.find('.doll-num').text('0');
-        dollsRow.append(dollTemplate.html());
-      }
-
-    });
-     
+ 
     return Account.refreshList();
   },
-
-
+ 
   /*
    * update account's doll possession list
    */
@@ -75,7 +61,8 @@ Account = {
     }).then(function(value) {
       // load dolls number
       for (var i = 0; i < 5; i = i + 1) {
-        $('.panel-doll').eq(i).find('.doll-num').text(value[i].toNumber());
+        dollList[i] = value[i].toNumber();
+        $('.animals').eq(i).find('span').text(value[i].toNumber());
       }
       return true;
     }).catch(function(e) {

@@ -1,86 +1,146 @@
-<div class="container">
-  <div class="row">
-    <h1>搜索朋友</h1>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <input type="text" id="searchName" placeholder="他/她的用户名"></input>
-    </div>
-    <div class="col-md-3">
-      <button type="button" class="btn btn-info" id="search">搜索</button>
-    </div>
-  </div>
-<div>
+{{#extend "stylesheets"}}
+<style>
+   .catch_home .title {
+        height: 8%;
+        width: auto;
+        margin-top: 2%;
+    }
 
-{{#if notFound}}
-<div class="container">
-  <h1>未找到该用户</h1>
-</div>
-{{else}}
-<div class="container">
-  <div class="row">
-    <h1>用户信息</h1>
-  </div>
-  <div class="row">
-    <div class="col-md-3"><label>用户名</label></div>
-    <div class="col-md-6">{{username}}</div>
-  </div>
-  <div class="row">
-    <div class="col-md-3"><label>电子邮箱</label></div>
-    <div class="col-md-6"><label>{{email}}</label></div>
-  </div>
- 
-  {{#if local}}
-  <div class="row">
-    <div class="col-md-2"><label>公钥地址</label></div>
-    <div class="col-md-4"><input type="text" id="publickey" name="publickey" value="{{publickey}}"></input></div>
-    <div class="col-md-2">
-      <button type="button" class="btn btn-info" id="submit">修改</button>
+    .send {
+        position: absolute;
+        bottom: 3%;
+        width: 60%;
+    }
+
+    #dollList {
+        width: 94%;
+        margin: 0px 3% 5%;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .container .box {
+        width: 17%;
+        max-width: 120px;
+    }
+
+    .container .box img {
+        width: 100%;
+    }
+
+    .box>span {
+        padding: 0.5px 4.5px;
+        text-align: center;
+        line-height: 20px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        color: white;
+        font-size: 12px;
+    }
+
+    .box {
+        position: relative;
+    }
+
+    .box div {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
+
+</style>
+{{/extend}}
+
+
+<div class="catch_home">
+    
+    <div class="container">
+      <div class="row">
+        <h1>搜索朋友</h1>
       </div>
-  </div>
-  {{else}}  
- <div class="row">
-    <div class="col-md-3"><label>公钥地址</label></div>
-    <div class="col-md-6"><label>{{publickey}}</label></div>
-  </div>
-  <div class="row">
-    <div class="col-md-2">
-      <button type="button" class="btn btn-info" id="transfer">赠送</button>
-    </div>
-  </div>
-  {{/if}}
-</div>
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 col-sm-8 col-sm-push-2 col-md-8">
-      <h4 class="text-center">Your Possession</h4>
-      <hr/>
-      <br/>
-    </div>
-  </div>
-
-  <div id="dollsRow" class="row">
-        <!-- DOLLS LOAD HERE -->
-  </div>
-</div>
-
-  <div id="dollTemplate" style="display: none;">
-      <div class="col-md-2 col-sm-2">
-        <div class="panel panel-default panel-doll">
-          <div class="panel-heading">
-            <h3 class="panel-title">XX DOG</h3>
-          </div>
-          <div class="panel-body">
-            <img alt="img" height=80 width=80 src="images/dog0.jpeg" >
-            <br/><br/>
-            <span class="doll-num">0</span></br></br>
-          </div>
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" id="searchName" placeholder="他/她的用户名" style="width:50%;"></input>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-info" id="search">搜索</button>
         </div>
       </div>
+    <div>
+
+    {{#if notFound}}
+    <div class="container">
+      <h1>未找到该用户</h1>
+    </div>
+    {{else}}
+    <div class="container">
+      <div class="row">
+        <h1>用户信息</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label>用户名</label></div>
+        <div class="col-md-6">{{username}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label>电子邮箱</label></div>
+        <div class="col-md-6"><label>{{email}}</label></div>
+      </div>
+     
+      {{#if local}}
+      <div class="row">
+        <div class="col-md-3"><label>公钥地址</label></div>
+        <div class="col-md-6"><input type="text" id="publickey" name="publickey" style="width:70%" value="{{publickey}}"></input></div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-info" id="submit">修改</button>
+          </div>
+      </div>
+      {{else}}  
+      <div class="row">
+        <div class="col-md-3"><label>公钥地址</label></div>
+        <div class="col-md-6"><label>{{publickey}}</label></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-info" id="transfer">赠送</button>
+        </div>
+      </div>
+      {{/if}}
     </div>
 
-{{/if}}
-    <script type="text/javascript">var account = "{{publickey}}"; var username = "{{user.username}}"</script>
-    <script type="text/javascript" src="/javascripts/account.js"></script>
+    <div class="send">
+        <div class="container" id="dollList">
+            <div class="box animals">
+                <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/9/4/6/7/5a90dff7019fe.png_p2js"/>
+                <span>0</span>
+            </div>
+            <div class="box animals">
+                <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/0/7/0/b/5a90dffda7c76.png_p2js"/>
+                <span>0</span>
+            </div>
+            <div class="box animals">
+                <img
+                src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/d/8/b/c/5a90e002ba391.png_p2js" />
+                <span>0</span>
+            </div>
+            <div class="box animals">
+                <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/f/6/2/f/5a90e00798a76.png_p2js" />
+                <span>0</span>
+            </div>
+            <div class="box animals">
+                <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/3/e/d/b/5a90e00ce292c.png_p2js" />
+                <span>0</span>
+            </div>
+
+        </div>
+    </div>
+    {{/if}}
+</div>
+<script type="text/javascript">var account = "{{publickey}}"; var username = "{{user.username}}"</script>
+<script type="text/javascript" src="/javascripts/account.js"></script>

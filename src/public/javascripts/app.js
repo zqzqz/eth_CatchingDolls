@@ -1,10 +1,10 @@
+var dollList = [0,0,0,0,0];
 App = {
   
   contracts: {},
   accounts: null,
   account: null,
   address: globalAddress,
-  user: globalUser,
 
   /*
    * entry function: init App.account, contract and event
@@ -70,7 +70,7 @@ App = {
    
   loadPage: function() {
     // load dolls
-    $.getJSON('../jsons/doll.json', function(data) {
+/*    $.getJSON('../jsons/doll.json', function(data) {
       var dollsRow = $('#dollsRow');
       var dollTemplate = $('#dollTemplate');
       for (var i = 0; i < data.length; i++) {
@@ -81,7 +81,7 @@ App = {
       }
 
     });
-     
+*/
     return App.refreshList();
   },
 
@@ -89,8 +89,9 @@ App = {
    * print error or return message on the window
    */
   setStatus: function(message) {
-    var status = document.getElementById("hint");
-    status.innerHTML = message;
+    /*var status = document.getElementById("hint");
+    status.innerHTML = message;*/
+    console.log(message);
   },
 
 
@@ -107,7 +108,8 @@ App = {
     }).then(function(value) {
       // load dolls number
       for (var i = 0; i < 5; i = i + 1) {
-        $('.panel-doll').eq(i).find('.doll-num').text(value[i].toNumber());
+        dollList[i] = value[i].toNumber();
+        $('.animals').eq(i).find('span').text(value[i].toNumber());
       }
       return true;
     }).catch(function(e) {
@@ -115,6 +117,7 @@ App = {
       App.setStatus("Error; see log.");
       return false;
     });
+
   },
 
   /*
@@ -156,14 +159,14 @@ App = {
    * callee of tranfer button in transfer page
    */
   transfer: function() {
-    var recipient = document.getElementById("recipient").value;
+    var recipient = $("#recipient").val();
     $.ajax({
       url:'/checkAccount',
       type:'post',
       data:{"username":"", "publickey": recipient},
       success: function(data, status) {
         console.log("account correct");
-        App.doTransfer();
+        App.doTransfer(recipient);
       },
       error: function(data, status) {
         console.log("account wrong");
@@ -172,10 +175,12 @@ App = {
     });
   },
 
-  doTransfer: function() {
+  doTransfer: function(recipient) {
     var game;
-    var items = document.getElementById("transferItems").value.split(' ');
-    var recipient = document.getElementById("recipient").value;
+    var items = [];
+    for (var i = 0; i < 5; i = i + 1) {
+        items.push(parseInt($('.animals').eq(i).find('input').val()));
+    }
     App.contracts.TinyGame.at(App.address).then(function(instance) {
       game = instance;
       return game.transferDoll.sendTransaction(recipient, items, {from: App.account});
@@ -187,13 +192,11 @@ App = {
   }
 };
 
-
-
 $(function() {
-  $(window).load(function() {
-      
-    App.init();
-
+    $(window).load(function() {
+        console.log("init");
+        App.init();
     });
 });
+
 

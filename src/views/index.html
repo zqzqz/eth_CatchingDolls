@@ -1,61 +1,352 @@
-<script src="/javascripts/app.js"></script>
-<script src="/javascripts/event.js"></script>
+{{#extend "stylesheets"}}
+<style>
+        body .title {
+            margin-top:0%;
+        }
 
-<div class="container">
-  <div class="pic row">
-    <div class="col-md-4 col-md-offset-4">  
-    <img alt="catched-img" class="img-rounded img-center" height=200 width=200 src="images/unknown.jpeg" >
-    </div>
-  </div>
-  <div class="row">
-    <div id='catch' class="col-md-2 col-md-offset-5">
-      <br><button type="button" id="catch" onclick="App.catch()">Catch!</button>
-    </div>
-  </div>
-<div>
-</br></br> 
+        .catch_home .container {
+            background-image: url(http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/c/e/4/d/5a912cc19eb3a.png_p2js);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            position: absolute;
+        }
 
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 col-sm-8 col-sm-push-2 col-md-8">
-      <h4 class="text-center">Your Possession</h4>
-      <hr/>
-      <br/>
-    </div>
-  </div>
+        .catch_home .box {
+            position: relative;
+            height: inherit;
+        }
 
-  <div id="dollsRow" class="row">
-        <!-- DOLLS LOAD HERE -->
-  </div>
-</div>
+        .catch_home .start_btn {
+            width: 20%;
+            margin-left: 40%;
+            margin-top: 49.5%;
+            position: absolute;
+            z-index: 1000;
+        }
 
-  <div id="dollTemplate" style="display: none;">
-      <div class="col-md-2 col-sm-2">
-        <div class="panel panel-default panel-doll">
-          <div class="panel-heading">
-            <h3 class="panel-title">XX DOG</h3>
-          </div>
-          <div class="panel-body">
-            <img alt="img" height=80 width=80 src="images/dog0.jpeg" >
-            <br/><br/>
-            <span class="doll-num">0</span></br></br>
-          </div>
+        .catch_home .animal_box {
+            width: 90%;
+            top: 71%;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-between;
+            position: absolute;
+        }
+
+        .catch_home .animal_box .animals {
+            width: 15%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .animals span {
+            padding: 0.5px 4.5px;
+            text-align: center;
+            line-height: 20px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: rgba(0, 0, 0, 0.7);
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .catch_home .animal_box .animals img {
+            width: 100%;
+        }
+
+        .catch_home .catch_btn {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .catch_home .catch_btn .catch_line {
+            position: absolute;
+            left: 50%;
+            margin-left: -0.6%;
+            width: 1.2%;
+            height: 10%;
+            top: 4.5%;
+            background-image: url(http://wx.wpart.cn/uploads/g/glwmxv1478167257/2/2/0/7/5a90e0882d18c.png_p2js);
+            background-repeat: repeat;
+            background-size: 100% 100%;
+        }
+
+        .catch_home .catch_btn .catch {
+            width: 15%;
+            position: absolute;
+            left: 50%;
+            margin-left: -7.5%;
+            top: 14.5%;
+        }
+
+        .catch_mask {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .catched {
+            width: 18%;
+            position: absolute;
+            left: 50%;
+            margin-left: -9%;
+            top: 55%;
+            display: none;
+        }
+
+        .btn_box {
+            position: absolute;
+            width: 50%;
+            margin-left: 25%;
+            bottom: 1%;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .btn_box img {
+            width: 22%;
+        }
+
+        .hidden_box {
+            overflow: hidden;
+            position: relative;
+            height: 50%;
+            text-align: center;
+        }
+
+        .mask_pic {
+            position: absolute;
+            width: 75%;
+            margin: 25% 11.9% 0px;
+            z-index: 100;
+        }
+
+        .mask_visibility {
+            width: 75%;
+            margin: 25% 12.5% 0px;
+            visibility: hidden;
+        }
+</style>
+{{/extend}}
+
+<div class="catch_home">
+    <div class="container">
+        <div class="box">
+            <div class="catch_btn">
+                <div class="hidden_box">
+                    <img src="http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/1/c/6/c/5a937181c265e.png_p2js"
+                         class="mask_pic"/>
+                    <img src="http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/1/c/6/c/5a937181c265e.png_p2js"
+                         class="mask_visibility"/>
+                    <img class="catched">
+                </div>
+                <div class="catch_line"></div>
+                <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/e/6/f/3/5a90e06d77c2e.png_p2js" class="catch">
+            </div>
+            <img src="http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/7/0/5/d/5a9126c294ddc.png_p2js"
+                 class="start_btn"/>
+            <div class="animal_box">
+                <div class="animals">
+                    <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/8/e/3/f/5a90dd8456354.png_p2js"/>
+                    <span>0</span>
+                </div>
+                <div class="animals">
+                    <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/1/5/8/b/5a90dd89acb6b.png_p2js"/>
+                    <span>0</span>
+                </div>
+                <div class="animals">
+                    <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/0/6/c/2/5a90dd9507255.png_p2js"/>
+                    <span>0</span>
+                </div>
+                <div class="animals">
+                    <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/0/6/c/2/5a90dd9507255.png_p2js"/>
+                    <span>0</span>
+                </div>
+                <div class="animals">
+                    <img src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/c/a/7/9/5a90dd9a0c3fb.png_p2js"/>
+                    <span>0</span>
+                </div>
+            </div>
+            <div class="btn_box">
+                <img src="http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/e/4/5/f/5a91643c324a1.png_p2js" class="exchange"/>
+                <img src="http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/0/9/3/7/5a9164437e523.png_p2js" class="send"/>
+            </div>
         </div>
-      </div>
     </div>
-
-<div class="container">
-  <div class="bottom-btn row">
-    <div class="col-md-2 col-center-block">
-      <br><button type="button" id="submit" onclick="App.submit()">Get Prize!</button>
-    </div>  
-    <div class="col-md-2 col-center-block">
-      <br><button type="button" id="transfer" onclick="window.location.href='/transfer' " >Transfer</button>
-    </div>
-  </div>
-
-  <div class="msg row">
-    <br><span id="hint"></span>
-  </div>
 </div>
-</br>
+<div class="catch_mask"><img/></div>
+
+<script src="/javascripts/app.js"></script>
+
+
+<script>
+    var flag = 1;
+    var winW = "";
+    var winH = "";
+    var bgW = "";
+    var bgH = "";
+    var bgT = "";
+    var bgL = "";
+    var imgH = "";
+    var imgL = "";
+    var aniW = "";
+    var aniL = "";
+    var show_arr = [
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/9/4/6/7/5a90dff7019fe.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/0/7/0/b/5a90dffda7c76.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/d/8/b/c/5a90e002ba391.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/f/6/2/f/5a90e00798a76.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/3/e/d/b/5a90e00ce292c.png_p2js"
+    ]
+    var mask_arr = [
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/e/a/4/5/5a90eafe98162.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/8/3/a/a/5a90f05d26591.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/3/5/9/8/5a90f0648fd5a.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/7/8/7/7/5a90f06b6d20a.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/c/f/3/4/5a90f0741564c.png_p2js"
+    ]
+    var catched_arr = [
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/5/1/7/6/5a90f32a2751e.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/1/4/3/0/5a90f34b6c60a.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/6/3/a/6/5a90f352d6ca5.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/2/4/7/c/5a90f359b602a.png_p2js",
+        "http://wx.wpart.cn/uploads/g/glwmxv1478167257/4/3/7/4/5a90f35f17049.png_p2js"
+    ]
+
+
+    function btnAni() {
+        //按钮动画效果
+        $(".start_btn").attr("src", "http://wx.wpart.cn/uploads/g/glwmxv1478167257/2/d/d/9/5a90d9ae12fba.png_p2js");
+        var img = new Image();
+        img.onload = function () {
+            setTimeout(function () {
+                $(".start_btn").attr("src", "http://wx.wpart.cn/uploads/Q/Qdh4nAHglce5Bkn7PTKf/7/0/5/d/5a9126c294ddc.png_p2js");
+            }, 1500)
+        }
+        img.src = "http://wx.wpart.cn/uploads/g/glwmxv1478167257/2/d/d/9/5a90d9ae12fba.png_p2js";
+    }
+
+    function doCatch(index) {
+        //抓娃娃动画效果
+        if (!flag) return;
+        flag = 0;
+        $(".catched").attr("src", catched_arr[index]);
+        var img = new Image();
+        img.onload = function () {
+            $(".catch_line").animate({
+                "height": "26%"
+            }, 1000, "linear")
+            $(".catch").animate({
+                "top": "30.5%"
+            }, 1000, "linear", function () {
+                $(".catch").attr("src", "http://wx.wpart.cn/uploads/g/glwmxv1478167257/1/3/a/3/5a90e07c36ab3.png_p2js");
+                setTimeout(function () {
+                    $(".catch").attr("src", "http://wx.wpart.cn/uploads/g/glwmxv1478167257/e/6/f/3/5a90e06d77c2e.png_p2js");
+                    $(".catched").show();
+                    $(".catch_line").animate({
+                        "height": "10%"
+                    }, 1000, "linear")
+                    $(".catch").animate({
+                        "top": "14.5%"
+                    }, 1000, "linear")
+                    $(".catched").animate({
+                        "top": "23%"
+                    }, 1000, "linear", function () {
+                        $(".catch_mask img").attr("src", mask_arr[index]);
+                        var img = new Image();
+                        img.onload = function () {
+                            $(".catch_mask").show();
+                        }
+                        img.src = mask_arr[index];
+                    })
+                }, 500)
+            })
+        }
+        img.src = catched_arr[0];
+    }
+</script>
+
+<script>
+$(function() {
+    if (window.innerHeight) {
+        winW = window.innerWidth;
+        winH = window.innerHeight;
+    } else {
+        winW = document.body.clientWidth;
+        winH = document.body.clientHeight;
+    }
+    bgW = winW * 0.9;
+    bgL = winW * 0.05;
+    bgH = bgW * 0.84;
+    bgT = winH - bgH;
+    if (bgT < winH * 0.1) {
+        bgH = winH * 0.9;
+        bgT = winH * 0.1;
+        bgW = bgH / 0.84;
+        bgL = (winW - bgW) / 2;
+    }
+    $(".container").css({
+        "height": bgH + "px",
+        "margin-top": bgT + "px",
+        "width": bgW + "px",
+        "margin-left": bgL + "px"
+    });
+    aniW = winW * 0.9;
+    aniL = winW * 0.05;
+    if ((winH - aniW) / 2 < 0) {
+        aniW = winH * 0.9;
+        aniL = (winW - aniW) / 2;
+    }
+    $(".catch_mask img").css({
+        "height": aniW + "px",
+        "margin-top": (winH - aniW) / 2 + "px",
+        "width": aniW + "px",
+        "margin-left": (winW - aniW) / 2 + "px",
+    });
+    imgH = winH * 0.08;
+    imgL = -(imgH / 0.38 / 2);
+    $(".title").css({
+        "height": imgH + "px",
+        "width": "auto",
+        "left": "50%",
+        "top": "1%",
+        "position": "absolute",
+        "margin-left": imgL + "px"
+    });
+    $(".start_btn").click(function () {
+        btnAni();
+        App.catch();
+    });
+    $(".exchange").click(function() {
+        App.submit();
+    });
+    $(".send").click(function() {
+        window.location.href = "/transfer";
+    });
+    $(".catch_mask").click(function () {
+        $(".catch_mask").hide();
+        $(".catched").hide();
+        $(".catched").css({
+            "top": "55%"
+        })
+        flag = 1;
+    });
+});
+</script>
+
+<script src="/javascripts/event.js"></script>

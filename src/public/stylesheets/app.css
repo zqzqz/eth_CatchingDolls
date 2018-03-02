@@ -1,46 +1,32 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 body {
-  margin-left: 10%;
-  margin-right: 10%;
-  font-family: "Open Sans", sans-serif;
+    color: white;
 }
 
-label {
-  display: inline-block;
-  width: 100px;
+body .title {
+    height: 8%;
+    margin: 2% auto 1% auto;
 }
 
-h1, h2 {
-  display: inline-block;
-  vertical-align: middle;
-  margin-top: 0px;
-  margin-bottom: 10px;
+input {
+    color: black;
 }
 
-h2 {
-  color: #AAA;
-  font-size: 32px;
+body .bg {
+    background-image: url(http://wx.wpart.cn/uploads/w/wlkflr1516618029/2/1/1/1/5a71592691691.png_p2js);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
 }
 
-h3 {
-  font-weight: normal;
-  color: #AAA;
-  font-size: 24px;
-}
-
-.container {
-  padding-top: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.col-center-block {
-  float:none;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 .black {
   color: black;
 }

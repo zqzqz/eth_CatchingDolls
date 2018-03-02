@@ -195,13 +195,9 @@ TinyGame.PayOnce({'payer': App.account})
 			console.log('payer:', result['args']['payer']);
 			console.log('dollID:', result['args']['dollID']);
 			App.refreshList();
-			$.getJSON('/jsons/doll.json', function(data) {
-				var _id = result['args']['dollID'].toNumber();
-				$('.pic').find('img').attr('src', data[_id].picture);
-			});
-			alert("Congratulations! You have caught a lovely dog!");
-		}
-	});
+			doCatch(parseInt(result['args']['dollID']));
+		}	
+    });
 
 TinyGame.SubmitSuccess({'winner':App.account}, {fromBlock: event_block+1, toBlock: 'latest'})
 	.watch(function(error, result) {

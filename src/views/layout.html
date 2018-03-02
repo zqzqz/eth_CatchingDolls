@@ -2,24 +2,26 @@
 
 <head>
 	<title>LUCKY DOG</title>
-	<meta charset="utf-8">
-    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="/javascripts/jquery.min.js"></script>
+    <meta name="viewport"
+          content="width=device-width, user-scalable = no,initial-scale=1.0, maximum-scale=1.0, user-scalable = no"
+          charset="utf-8"/>
+      <script src="/javascripts/jquery.min.js"></script>
   <!-- <script src="/javascripts/bootstrap.min.js"></script> -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="/javascripts/web3.min.js"></script>
   <script src="/javascripts/truffle-contract.js"></script>
 
   <script type="text/javascript">var globalAddress="0xCbF43D8b7fC38FEbe469EeA5A463322a3711320e";</script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="/stylesheets/app.css" rel="stylesheet">
   <!-- <link href="/stylesheets/bootstrap.min.css" rel="stylesheet"> -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
+  {{{block "stylesheets"}}}
 </head>
 <body>
+
   {{{message}}}
-  <h1 style="text-align:center" >LUCKY DOG</h1>
-  <ul id="nav" class="nav nav-pills">
+    <ul id="nav" class="nav nav-pills">
     {{#if user}}
     <li class="disabled"><label>Hello {{user.username}}</label></li>
     <script type="text/javascript">var globalUser="{{user.username}}"</script>
@@ -32,7 +34,13 @@
     {{/if}}
       <li class="active"><a href="/help">帮助</a></li>
   </ul>
-	{{{body}}}
 
+    <div>
+        <div class="bg"></div>
+        <div style="text-align:center;">
+            <img class="title" src="http://wx.wpart.cn/uploads/g/glwmxv1478167257/8/6/a/3/5a90cf3472b7a.png_p2js"/>
+        </div>
+        {{{body}}}
+    </div>
 </body>
 </html>
